@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
 import 'package:skinseek_app/features/setup/data/models/skin_profile.dart';
 import 'package:skinseek_app/features/setup/presentation/riverpod/setup_provider.dart';
+import 'package:skinseek_app/features/subscriptions/presentation/screens/premium_subscription_screen.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -51,7 +52,7 @@ class _ProfileHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 60, 24, 0),
       height: 124,
-      decoration: BoxDecoration(color: const Color(0xFFFAF9F6).withOpacity(0.7)),
+      decoration: BoxDecoration(color: const Color(0xFFFAF9F6).withValues(alpha: 0.7)),
       child: Center(
         child: Text(
           'SkinSeek',
@@ -83,7 +84,7 @@ class _UserInfoSection extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 40, offset: const Offset(0, 20))],
+                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 40, offset: const Offset(0, 20))],
                 image: const DecorationImage(
                   image: NetworkImage(
                     'https://lh3.googleusercontent.com/aida-public/AB6AXuAKU-grIB1i1oZ2qCa0eqxgLXG_ZKy_X2yDsnPhNGtNq11xpbBZMOYZnd2_0C0C8W-tvnCAelHWZ8AAJUFrkXs6VSa8E20nQpV9-f30NumhO2KPrdfjqaRuW_fz0Pyr4OqCMx2SkTlo0cLRrikC2crkBhIhU8D-u8co5WxoME4PUMmOMRqKsJiwzLaH5shOgz7UaBVmEtWtzw1V1ovROdcYW8LrbA1hN5x_sa6fo0b6FdZa5GecDzT8CJiZ14DhTrbOU2rYqkjOfv7Z',
@@ -144,7 +145,7 @@ class _SkinInsightsGrid extends StatelessWidget {
         Expanded(
           child: _InsightCard(
             label: 'MY SKIN TYPE',
-            value: profile.skinType?.upperLabel ?? 'NONE',
+            value: profile.skinType?.name.toUpperCase() ?? 'NONE',
             description: 'Balanced with focus on T-zone.',
             icon: Icons.water_drop,
           ),
@@ -167,7 +168,7 @@ class _SkinInsightsGrid extends StatelessWidget {
                               color: const Color(0xFFEFEEEB),
                               borderRadius: BorderRadius.circular(100),
                             ),
-                            child: Text(c.titleLabel, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500)),
+                            child: Text(c.name.toUpperCase(), style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500)),
                           ),
                         )
                         .toList(),
@@ -206,7 +207,7 @@ class _InsightCard extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(24),
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.02), blurRadius: 40, offset: const Offset(0, 20))],
+        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.02), blurRadius: 40, offset: const Offset(0, 20))],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -217,7 +218,7 @@ class _InsightCard extends StatelessWidget {
               fontSize: 10,
               fontWeight: FontWeight.w700,
               letterSpacing: 1,
-              color: AppTheme.splashOnSurfaceVariant.withOpacity(0.5),
+              color: AppTheme.splashOnSurfaceVariant.withValues(alpha: 0.5),
             ),
           ),
           const SizedBox(height: 8),
@@ -236,7 +237,7 @@ class _InsightCard extends StatelessWidget {
                 Expanded(
                   child: Text(
                     description!,
-                    style: GoogleFonts.inter(fontSize: 11, color: AppTheme.splashOnSurfaceVariant.withOpacity(0.6)),
+                    style: GoogleFonts.inter(fontSize: 11, color: AppTheme.splashOnSurfaceVariant.withValues(alpha: 0.6)),
                   ),
                 ),
               if (isUpdateable)
@@ -244,7 +245,7 @@ class _InsightCard extends StatelessWidget {
                   'Update >',
                   style: GoogleFonts.inter(fontSize: 11, fontWeight: FontWeight.bold, color: AppTheme.splashPrimary),
                 ),
-              Icon(icon, color: AppTheme.splashPrimary.withOpacity(0.1), size: 40),
+              Icon(icon, color: AppTheme.splashPrimary.withValues(alpha: 0.1), size: 40),
             ],
           ),
         ],
@@ -277,7 +278,7 @@ class _SubscriptionCard extends StatelessWidget {
             child: Container(
               width: 140,
               height: 140,
-              decoration: BoxDecoration(color: Colors.white.withOpacity(0.2), shape: BoxShape.circle),
+              decoration: BoxDecoration(color: Colors.white.withValues(alpha: 0.2), shape: BoxShape.circle),
             ),
           ),
           Column(
@@ -294,7 +295,14 @@ class _SubscriptionCard extends StatelessWidget {
               ),
               const SizedBox(height: 24),
               ElevatedButton(
-                onPressed: () {},
+                onPressed: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      fullscreenDialog: true,
+                      builder: (context) => const PremiumSubscriptionScreen(),
+                    ),
+                  );
+                },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.splashPrimary,
                   foregroundColor: Colors.white,
@@ -325,7 +333,7 @@ class _AccountSettingsList extends StatelessWidget {
             fontSize: 10,
             fontWeight: FontWeight.bold,
             letterSpacing: 1.2,
-            color: AppTheme.splashOnSurfaceVariant.withOpacity(0.5),
+            color: AppTheme.splashOnSurfaceVariant.withValues(alpha: 0.5),
           ),
         ),
         const SizedBox(height: 16),
