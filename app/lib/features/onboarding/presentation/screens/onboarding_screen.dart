@@ -1,8 +1,9 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
-import 'package:skinseek_app/features/auth/presentation/screens/landing_screen.dart';
+import 'package:skinseek_app/features/auth/presentation/screens/login_screen.dart';
 
 class OnboardingContent {
   final String title;
@@ -95,10 +96,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
   void initState() {
     super.initState();
     _pageController = PageController();
-    _pulseController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat(reverse: true);
+    _pulseController = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat(reverse: true);
   }
 
   @override
@@ -110,14 +108,9 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
 
   void _onNextPressed() {
     if (_currentPage < _pages.length - 1) {
-      _pageController.nextPage(
-        duration: const Duration(milliseconds: 600),
-        curve: Curves.easeInOutCubic,
-      );
+      _pageController.nextPage(duration: const Duration(milliseconds: 600), curve: Curves.easeInOutCubic);
     } else {
-      Navigator.of(context).pushReplacement(
-        MaterialPageRoute(builder: (context) => const LandingScreen()),
-      );
+      Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context) => const LoginScreen()));
     }
   }
 
@@ -131,20 +124,12 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
           Positioned(
             top: -100,
             right: -100,
-            child: _BlurredCircle(
-              size: 256,
-              color: AppTheme.splashAmbient1.withOpacity(0.3),
-              blur: 80,
-            ),
+            child: _BlurredCircle(size: 256, color: AppTheme.splashAmbient1.withOpacity(0.3), blur: 80),
           ),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.5 - 160,
             left: -128,
-            child: _BlurredCircle(
-              size: 320,
-              color: AppTheme.splashAmbient2.withOpacity(0.2),
-              blur: 80,
-            ),
+            child: _BlurredCircle(size: 320, color: AppTheme.splashAmbient2.withOpacity(0.2), blur: 80),
           ),
 
           // Main Content
@@ -163,15 +148,15 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                       width: isActive ? 48 : 24,
                       height: 6,
                       decoration: BoxDecoration(
-                        color: isActive 
-                          ? AppTheme.splashPrimary.withOpacity(0.4)
-                          : AppTheme.splashOutlineVariant.withOpacity(0.3),
+                        color: isActive
+                            ? AppTheme.splashPrimary.withOpacity(0.4)
+                            : AppTheme.splashOutlineVariant.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(3),
                       ),
                     );
                   }),
                 ),
-                
+
                 Expanded(
                   child: PageView.builder(
                     controller: _pageController,
@@ -182,10 +167,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                     },
                     itemCount: _pages.length,
                     itemBuilder: (context, index) {
-                      return _OnboardingPageView(
-                        content: _pages[index],
-                        pulseAnimation: _pulseController,
-                      );
+                      return _OnboardingPageView(content: _pages[index], pulseAnimation: _pulseController);
                     },
                   ),
                 ),
@@ -201,9 +183,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                           width: double.infinity,
                           padding: const EdgeInsets.symmetric(vertical: 20),
                           decoration: BoxDecoration(
-                            gradient: const LinearGradient(
-                              colors: [Color(0xFFC2B1A4), Color(0xFF92867D)],
-                            ),
+                            gradient: const LinearGradient(colors: [Color(0xFFC2B1A4), Color(0xFF92867D)]),
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
@@ -243,7 +223,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
               ],
             ),
           ),
-          
+
           // Background Texture Overlay
           IgnorePointer(
             child: Opacity(
@@ -266,10 +246,7 @@ class _OnboardingPageView extends StatelessWidget {
   final OnboardingContent content;
   final Animation<double> pulseAnimation;
 
-  const _OnboardingPageView({
-    required this.content,
-    required this.pulseAnimation,
-  });
+  const _OnboardingPageView({required this.content, required this.pulseAnimation});
 
   @override
   Widget build(BuildContext context) {
@@ -409,9 +386,9 @@ class _OnboardingPageView extends StatelessWidget {
                                   filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                                   child: Container(
                                     padding: const EdgeInsets.all(12),
-                                    color: content.showWarningBanner 
-                                      ? AppTheme.splashErrorContainer.withOpacity(0.9)
-                                      : AppTheme.splashAmbient1.withOpacity(0.9),
+                                    color: content.showWarningBanner
+                                        ? AppTheme.splashErrorContainer.withOpacity(0.9)
+                                        : AppTheme.splashAmbient1.withOpacity(0.9),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -424,9 +401,9 @@ class _OnboardingPageView extends StatelessWidget {
                                                 fontSize: 8,
                                                 fontWeight: FontWeight.bold,
                                                 letterSpacing: 1.5,
-                                                color: content.showWarningBanner 
-                                                  ? AppTheme.splashError.withOpacity(0.8)
-                                                  : AppTheme.splashPrimary.withOpacity(0.8),
+                                                color: content.showWarningBanner
+                                                    ? AppTheme.splashError.withOpacity(0.8)
+                                                    : AppTheme.splashPrimary.withOpacity(0.8),
                                               ),
                                             ),
                                             const SizedBox(height: 2),
@@ -435,9 +412,9 @@ class _OnboardingPageView extends StatelessWidget {
                                               style: GoogleFonts.manrope(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w800,
-                                                color: content.showWarningBanner 
-                                                  ? AppTheme.splashError
-                                                  : AppTheme.splashPrimary,
+                                                color: content.showWarningBanner
+                                                    ? AppTheme.splashError
+                                                    : AppTheme.splashPrimary,
                                               ),
                                             ),
                                           ],
@@ -445,21 +422,21 @@ class _OnboardingPageView extends StatelessWidget {
                                         Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            color: content.showWarningBanner 
-                                              ? AppTheme.splashError.withOpacity(0.1)
-                                              : AppTheme.splashPrimary.withOpacity(0.1),
+                                            color: content.showWarningBanner
+                                                ? AppTheme.splashError.withOpacity(0.1)
+                                                : AppTheme.splashPrimary.withOpacity(0.1),
                                             shape: BoxShape.circle,
-                                            border: Border.all(color: content.showWarningBanner 
-                                              ? AppTheme.splashError.withOpacity(0.2)
-                                              : AppTheme.splashPrimary.withOpacity(0.2)),
+                                            border: Border.all(
+                                              color: content.showWarningBanner
+                                                  ? AppTheme.splashError.withOpacity(0.2)
+                                                  : AppTheme.splashPrimary.withOpacity(0.2),
+                                            ),
                                           ),
                                           child: Icon(
-                                            content.showWarningBanner 
-                                              ? Icons.warning_amber_rounded
-                                              : Icons.check_circle_outline_rounded,
-                                            color: content.showWarningBanner 
-                                              ? AppTheme.splashError
-                                              : AppTheme.splashPrimary,
+                                            content.showWarningBanner
+                                                ? Icons.warning_amber_rounded
+                                                : Icons.check_circle_outline_rounded,
+                                            color: content.showWarningBanner ? AppTheme.splashError : AppTheme.splashPrimary,
                                             size: 18,
                                           ),
                                         ),
@@ -482,11 +459,7 @@ class _OnboardingPageView extends StatelessWidget {
                                       color: AppTheme.splashAmbient1,
                                       borderRadius: BorderRadius.circular(16),
                                     ),
-                                    child: const Icon(
-                                      Icons.auto_awesome,
-                                      color: AppTheme.splashPrimary,
-                                      size: 28,
-                                    ),
+                                    child: const Icon(Icons.auto_awesome, color: AppTheme.splashPrimary, size: 28),
                                   ),
                                   const SizedBox(height: 16),
                                   Text(
@@ -509,17 +482,20 @@ class _OnboardingPageView extends StatelessWidget {
                                   ),
                                   const SizedBox(height: 16),
                                   Column(
-                                    children: List.generate(3, (index) => Padding(
-                                      padding: const EdgeInsets.only(bottom: 6.0),
-                                      child: Container(
-                                        height: 4,
-                                        width: 80 - (index * 15.0),
-                                        decoration: BoxDecoration(
-                                          color: AppTheme.splashOutlineVariant.withOpacity(0.3),
-                                          borderRadius: BorderRadius.circular(2),
+                                    children: List.generate(
+                                      3,
+                                      (index) => Padding(
+                                        padding: const EdgeInsets.only(bottom: 6.0),
+                                        child: Container(
+                                          height: 4,
+                                          width: 80 - (index * 15.0),
+                                          decoration: BoxDecoration(
+                                            color: AppTheme.splashOutlineVariant.withOpacity(0.3),
+                                            borderRadius: BorderRadius.circular(2),
+                                          ),
                                         ),
                                       ),
-                                    )),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -539,11 +515,7 @@ class _OnboardingPageView extends StatelessWidget {
                     shape: BoxShape.circle,
                     border: Border.all(color: AppTheme.splashGradientStart, width: 4),
                     boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.1),
-                        blurRadius: 40,
-                        offset: const Offset(0, 10),
-                      ),
+                      BoxShadow(color: Colors.black.withOpacity(0.1), blurRadius: 40, offset: const Offset(0, 10)),
                     ],
                   ),
                   child: Icon(
@@ -598,12 +570,7 @@ class _OnboardingCard extends StatelessWidget {
   final Widget child;
   final Color? borderColor;
 
-  const _OnboardingCard({
-    required this.width,
-    this.height,
-    required this.child,
-    this.borderColor,
-  });
+  const _OnboardingCard({required this.width, this.height, required this.child, this.borderColor});
 
   @override
   Widget build(BuildContext context) {
@@ -614,13 +581,7 @@ class _OnboardingCard extends StatelessWidget {
         color: Colors.white,
         borderRadius: BorderRadius.circular(16),
         border: borderColor != null ? Border.all(color: borderColor!) : null,
-        boxShadow: [
-          BoxShadow(
-            color: AppTheme.splashPrimary.withOpacity(0.12),
-            blurRadius: 40,
-            offset: const Offset(0, 12),
-          ),
-        ],
+        boxShadow: [BoxShadow(color: AppTheme.splashPrimary.withOpacity(0.12), blurRadius: 40, offset: const Offset(0, 12))],
       ),
       child: child,
     );
@@ -632,21 +593,14 @@ class _BlurredCircle extends StatelessWidget {
   final Color color;
   final double blur;
 
-  const _BlurredCircle({
-    required this.size,
-    required this.color,
-    required this.blur,
-  });
+  const _BlurredCircle({required this.size, required this.color, required this.blur});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(color: Colors.transparent),
