@@ -15,42 +15,29 @@ class HomeDashboardScreen extends ConsumerWidget {
 
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F6),
-      body: Stack(
-        children: [
-          // Main Scrollable Content
-          SafeArea(
-            child: SingleChildScrollView(
-              padding: const EdgeInsets.only(bottom: 120), // Space for floating nav
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const HomeHeader(),
-                  Padding(
-                    padding: const EdgeInsets.all(24.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        GreetingSection(userName: userName),
-                        const SizedBox(height: 32),
-                        const ActionBentoGrid(),
-                        const SizedBox(height: 48),
-                        const RecentScansSection(),
-                      ],
-                    ),
-                  ),
-                ],
+      body: SafeArea(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.only(bottom: 120), // Space for floating nav in shell
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const HomeHeader(),
+              Padding(
+                padding: const EdgeInsets.all(24.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    GreetingSection(userName: userName),
+                    const SizedBox(height: 32),
+                    const ActionBentoGrid(),
+                    const SizedBox(height: 48),
+                    const RecentScansSection(),
+                  ],
+                ),
               ),
-            ),
+            ],
           ),
-
-          // Floating Bottom Navigation
-          const Positioned(
-            bottom: 0,
-            left: 0,
-            right: 0,
-            child: DashboardBottomNav(),
-          ),
-        ],
+        ),
       ),
     );
   }

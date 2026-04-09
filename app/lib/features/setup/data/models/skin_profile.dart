@@ -67,6 +67,42 @@ enum ExperienceLevel {
   advanced,
 }
 
+String _enumToken(Object value) => value.toString().split('.').last;
+
+String _enumUpper(Object value) {
+  final token = _enumToken(value);
+  final snake = token.replaceAllMapped(RegExp(r'([a-z])([A-Z])'), (m) => '${m[1]}_${m[2]}');
+  return snake.toUpperCase();
+}
+
+String _enumTitle(Object value) {
+  final upper = _enumUpper(value);
+  return upper
+      .split('_')
+      .map((p) => p.isEmpty ? p : '${p[0]}${p.substring(1).toLowerCase()}')
+      .join(' ');
+}
+
+extension SkinTypeLabelX on SkinType {
+  String get upperLabel => _enumUpper(this);
+  String get titleLabel => _enumTitle(this);
+}
+
+extension SkinConcernLabelX on SkinConcern {
+  String get upperLabel => _enumUpper(this);
+  String get titleLabel => _enumTitle(this);
+}
+
+extension SkinGoalLabelX on SkinGoal {
+  String get upperLabel => _enumUpper(this);
+  String get titleLabel => _enumTitle(this);
+}
+
+extension ExperienceLevelLabelX on ExperienceLevel {
+  String get upperLabel => _enumUpper(this);
+  String get titleLabel => _enumTitle(this);
+}
+
 @freezed
 class SkinProfile with _$SkinProfile {
   const factory SkinProfile({

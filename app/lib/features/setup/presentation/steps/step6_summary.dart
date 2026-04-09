@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:skinseek_app/features/setup/data/models/skin_profile.dart';
+
 import '../riverpod/setup_provider.dart';
 import '../widgets/setup_widgets.dart';
 
@@ -21,25 +23,25 @@ class Step6Summary extends ConsumerWidget {
         const SizedBox(height: 32),
         _SummarySection(
           title: 'Skin Type',
-          value: profile.skinType?.name.toUpperCase() ?? 'NOT SELECTED',
+          value: profile.skinType?.upperLabel ?? 'NOT SELECTED',
           onEdit: () => ref.read(setupNotifierProvider.notifier).goToStep(1),
         ),
         const SizedBox(height: 16),
         _SummarySection(
           title: 'Main Concerns',
-          value: profile.concerns.map((e) => e.name).join(', ').toUpperCase(),
+          value: profile.concerns.map((e) => e.upperLabel).join(', '),
           onEdit: () => ref.read(setupNotifierProvider.notifier).goToStep(2),
         ),
         const SizedBox(height: 16),
         _SummarySection(
           title: 'Skin Goals',
-          value: profile.goals.map((e) => e.name).join(', ').toUpperCase(),
+          value: profile.goals.map((e) => e.upperLabel).join(', '),
           onEdit: () => ref.read(setupNotifierProvider.notifier).goToStep(3),
         ),
         const SizedBox(height: 16),
         _SummarySection(
           title: 'Experience Level',
-          value: profile.experienceLevel?.name.toUpperCase() ?? 'NOT SELECTED',
+          value: profile.experienceLevel?.upperLabel ?? 'NOT SELECTED',
           onEdit: () => ref.read(setupNotifierProvider.notifier).goToStep(4),
         ),
         const SizedBox(height: 40),
@@ -57,11 +59,7 @@ class Step6Summary extends ConsumerWidget {
               Expanded(
                 child: Text(
                   'Our AI is ready to analyze ingredients based on your profile.',
-                  style: GoogleFonts.inter(
-                    fontSize: 14,
-                    color: const Color(0xFF675D53),
-                    fontWeight: FontWeight.w500,
-                  ),
+                  style: GoogleFonts.inter(fontSize: 14, color: const Color(0xFF675D53), fontWeight: FontWeight.w500),
                 ),
               ),
             ],
@@ -78,11 +76,7 @@ class _SummarySection extends StatelessWidget {
   final String value;
   final VoidCallback onEdit;
 
-  const _SummarySection({
-    required this.title,
-    required this.value,
-    required this.onEdit,
-  });
+  const _SummarySection({required this.title, required this.value, required this.onEdit});
 
   @override
   Widget build(BuildContext context) {
@@ -91,13 +85,7 @@ class _SummarySection extends StatelessWidget {
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withOpacity(0.03),
-            blurRadius: 20,
-            offset: const Offset(0, 10),
-          ),
-        ],
+        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 20, offset: const Offset(0, 10))],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -118,11 +106,7 @@ class _SummarySection extends StatelessWidget {
                 const SizedBox(height: 4),
                 Text(
                   value,
-                  style: GoogleFonts.manrope(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w800,
-                    color: const Color(0xFF675D53),
-                  ),
+                  style: GoogleFonts.manrope(fontSize: 16, fontWeight: FontWeight.w800, color: const Color(0xFF675D53)),
                 ),
               ],
             ),

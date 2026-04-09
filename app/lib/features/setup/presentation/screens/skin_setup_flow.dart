@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
-import 'package:skinseek_app/features/home/presentation/screens/home_dashboard_screen.dart';
+import 'package:skinseek_app/features/navigation/presentation/screens/main_navigation_shell.dart';
 
 import '../riverpod/setup_provider.dart';
 import '../steps/step1_welcome.dart';
@@ -108,7 +108,7 @@ class _SkinSetupFlowState extends ConsumerState<SkinSetupFlow> {
                         await notifier.completeSetup();
                         if (mounted) {
                           Navigator.of(context).pushAndRemoveUntil(
-                            MaterialPageRoute(builder: (context) => const HomeDashboardScreen()),
+                            MaterialPageRoute(builder: (context) => const MainNavigationShell()),
                             (route) => false,
                           );
                         }

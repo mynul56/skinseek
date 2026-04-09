@@ -4,7 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
-import 'package:skinseek_app/features/home/presentation/screens/home_dashboard_screen.dart';
+import 'package:skinseek_app/features/navigation/presentation/screens/main_navigation_shell.dart';
 import 'package:skinseek_app/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:skinseek_app/features/setup/data/repositories/setup_repository.dart';
 
@@ -43,7 +43,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
         Widget nextScreen;
         if (profile != null && profile.isCompleted) {
-          nextScreen = const HomeDashboardScreen();
+          nextScreen = const MainNavigationShell();
         } else {
           nextScreen = const OnboardingScreen();
         }

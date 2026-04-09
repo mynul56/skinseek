@@ -12,7 +12,9 @@ class HomeHeader extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.fromLTRB(24, 0, 24, 0),
       height: 64,
-      decoration: BoxDecoration(color: const Color(0xFFFAF9F6).withOpacity(0.7)),
+      decoration: BoxDecoration(
+        color: const Color(0xFFFAF9F6).withOpacity(0.7),
+      ),
       child: ClipRRect(
         child: BackdropFilter(
           filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
@@ -46,7 +48,10 @@ class HomeHeader extends StatelessWidget {
                   ),
                 ],
               ),
-              const Icon(Icons.notifications_outlined, color: Color(0xFF675D53)),
+              const Icon(
+                Icons.notifications_outlined,
+                color: Color(0xFF675D53),
+              ),
             ],
           ),
         ),
@@ -92,7 +97,11 @@ class GreetingSection extends StatelessWidget {
         const SizedBox(height: 8),
         Text(
           'Your skin hydration is up by 12% today. Let\'s keep the glow going.',
-          style: GoogleFonts.inter(fontSize: 15, color: AppTheme.splashOnSurfaceVariant.withOpacity(0.8), height: 1.5),
+          style: GoogleFonts.inter(
+            fontSize: 15,
+            color: AppTheme.splashOnSurfaceVariant.withOpacity(0.8),
+            height: 1.5,
+          ),
         ),
       ],
     );
@@ -109,7 +118,8 @@ class ActionBentoGrid extends StatelessWidget {
         // Analyze Ingredients (Large Card)
         _BentoCard(
           title: 'Analyze Ingredients',
-          subtitle: 'Scan any product label to identify potential irritants or hero ingredients instantly.',
+          subtitle:
+              'Scan any product label to identify potential irritants or hero ingredients instantly.',
           buttonLabel: 'Start Scan',
           icon: Icons.search_rounded,
           backgroundColor: Colors.white,
@@ -126,7 +136,8 @@ class ActionBentoGrid extends StatelessWidget {
                 subtitle: 'Optimize your layering order.',
                 buttonLabel: 'Optimize',
                 icon: Icons.sync,
-                backgroundColor: Color(0xFFEFEEEB),
+                backgroundColor: Color.fromARGB(255, 255, 255, 255),
+                buttonColor: Color.fromARGB(255, 255, 255, 255),
                 backgroundImage:
                     'https://lh3.googleusercontent.com/aida-public/AB6AXuDWu90V-CrOm0oZk_HgpmmzeNMfS4c-D-GH0yLNkyXO7ePujx33767OSwoVbtEHHU-uvhfHLkNcDlHjJgkc_chblCxeSKEhabyI1Cic0Y0-r9Q2iMiv1LRxUyW_QtAvA0CE8ken63MrvWVo1_tk3ztOxDGuu9vZol-eP2uvrMNmINYJwsgSaJujPZM2gqmjNKCDFim23ImCn9apEsxBBeHRKhPnULDqAccgaCbfvWXGulpUyVCOMpO_ID20wVQ_ubgf2bLItt-VuvOm',
               ),
@@ -187,14 +198,32 @@ class _BentoCard extends StatelessWidget {
         color: backgroundColor,
         borderRadius: BorderRadius.circular(24),
         image: backgroundImage != null
-            ? DecorationImage(image: NetworkImage(backgroundImage!), fit: BoxFit.cover, opacity: 0.15)
+            ? DecorationImage(
+                image: NetworkImage(backgroundImage!),
+                fit: BoxFit.cover,
+                opacity: 0.15,
+              )
             : null,
-        boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.04), blurRadius: 40, offset: const Offset(0, 20))],
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.04),
+            blurRadius: 40,
+            offset: const Offset(0, 20),
+          ),
+        ],
       ),
       child: Stack(
         children: [
           if (isDark && !isLarge)
-            Positioned(right: -20, bottom: -20, child: Icon(Icons.paid, size: 140, color: Colors.white.withOpacity(0.05))),
+            Positioned(
+              right: -20,
+              bottom: -20,
+              child: Icon(
+                Icons.paid,
+                size: 140,
+                color: Colors.white.withOpacity(0.05),
+              ),
+            ),
           Padding(
             padding: EdgeInsets.all(isLarge ? 24 : 20),
             child: Column(
@@ -203,10 +232,16 @@ class _BentoCard extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(isLarge ? 10 : 8),
                   decoration: BoxDecoration(
-                    color: isDark ? Colors.white.withOpacity(0.1) : (isLarge ? const Color(0xFFF5E6DA) : Colors.white),
+                    color: isDark
+                        ? Colors.white.withOpacity(0.1)
+                        : (isLarge ? const Color(0xFFF5E6DA) : Colors.white),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(icon, color: isDark ? Colors.white : AppTheme.splashPrimary, size: isLarge ? 24 : 20),
+                  child: Icon(
+                    icon,
+                    color: isDark ? Colors.white : AppTheme.splashPrimary,
+                    size: isLarge ? 24 : 20,
+                  ),
                 ),
                 if (isLarge) const Spacer() else const SizedBox(height: 12),
                 Text(
@@ -224,15 +259,22 @@ class _BentoCard extends StatelessWidget {
                   overflow: TextOverflow.ellipsis,
                   style: GoogleFonts.inter(
                     fontSize: isLarge ? 12 : 11,
-                    color: isDark ? Colors.white.withOpacity(0.7) : AppTheme.splashOnSurfaceVariant.withOpacity(0.7),
+                    color: isDark
+                        ? Colors.white.withOpacity(0.7)
+                        : AppTheme.splashOnSurfaceVariant.withOpacity(0.7),
                   ),
                 ),
                 SizedBox(height: isLarge ? 16 : 12),
                 Container(
-                  padding: EdgeInsets.symmetric(horizontal: isLarge ? 20 : 16, vertical: isLarge ? 10 : 8),
+                  padding: EdgeInsets.symmetric(
+                    horizontal: isLarge ? 20 : 16,
+                    vertical: isLarge ? 10 : 8,
+                  ),
                   decoration: BoxDecoration(
                     color: buttonColor,
-                    gradient: buttonGradient != null ? LinearGradient(colors: buttonGradient!) : null,
+                    gradient: buttonGradient != null
+                        ? LinearGradient(colors: buttonGradient!)
+                        : null,
                     borderRadius: BorderRadius.circular(999),
                   ),
                   child: Text(
@@ -293,11 +335,18 @@ class RecentScansSection extends StatelessWidget {
               children: [
                 Text(
                   'Recent Scans',
-                  style: GoogleFonts.manrope(fontSize: 24, fontWeight: FontWeight.bold, color: AppTheme.splashPrimary),
+                  style: GoogleFonts.manrope(
+                    fontSize: 24,
+                    fontWeight: FontWeight.bold,
+                    color: AppTheme.splashPrimary,
+                  ),
                 ),
                 Text(
                   'Your digital shelf history',
-                  style: GoogleFonts.inter(fontSize: 13, color: AppTheme.splashOnSurfaceVariant.withOpacity(0.6)),
+                  style: GoogleFonts.inter(
+                    fontSize: 13,
+                    color: AppTheme.splashOnSurfaceVariant.withOpacity(0.6),
+                  ),
                 ),
               ],
             ),
@@ -305,7 +354,11 @@ class RecentScansSection extends StatelessWidget {
               onPressed: () {},
               child: Text(
                 'View All',
-                style: GoogleFonts.manrope(fontSize: 14, fontWeight: FontWeight.bold, color: AppTheme.splashPrimary),
+                style: GoogleFonts.manrope(
+                  fontSize: 14,
+                  fontWeight: FontWeight.bold,
+                  color: AppTheme.splashPrimary,
+                ),
               ),
             ),
           ],
@@ -326,7 +379,13 @@ class RecentScansSection extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 20, offset: const Offset(0, 10))],
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.03),
+                      blurRadius: 20,
+                      offset: const Offset(0, 10),
+                    ),
+                  ],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -334,7 +393,11 @@ class RecentScansSection extends StatelessWidget {
                     Expanded(
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(12),
-                        child: Image.network(item.imageUrl, fit: BoxFit.cover, width: double.infinity),
+                        child: Image.network(
+                          item.imageUrl,
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                        ),
                       ),
                     ),
                     const SizedBox(height: 12),
@@ -352,16 +415,29 @@ class RecentScansSection extends StatelessWidget {
                       item.name,
                       maxLines: 1,
                       overflow: TextOverflow.ellipsis,
-                      style: GoogleFonts.manrope(fontSize: 15, fontWeight: FontWeight.bold, color: AppTheme.splashPrimary),
+                      style: GoogleFonts.manrope(
+                        fontSize: 15,
+                        fontWeight: FontWeight.bold,
+                        color: AppTheme.splashPrimary,
+                      ),
                     ),
                     const SizedBox(height: 4),
                     Row(
                       children: [
-                        const Icon(Icons.star, color: Color(0xFF735C00), size: 12),
+                        const Icon(
+                          Icons.star,
+                          color: Color(0xFF735C00),
+                          size: 12,
+                        ),
                         const SizedBox(width: 4),
                         Text(
                           item.match,
-                          style: GoogleFonts.inter(fontSize: 11, color: AppTheme.splashOnSurfaceVariant.withOpacity(0.6)),
+                          style: GoogleFonts.inter(
+                            fontSize: 11,
+                            color: AppTheme.splashOnSurfaceVariant.withOpacity(
+                              0.6,
+                            ),
+                          ),
                         ),
                       ],
                     ),
@@ -382,7 +458,12 @@ class _ScanItem {
   final String match;
   final String imageUrl;
 
-  _ScanItem({required this.name, required this.category, required this.match, required this.imageUrl});
+  _ScanItem({
+    required this.name,
+    required this.category,
+    required this.match,
+    required this.imageUrl,
+  });
 }
 
 class DashboardBottomNav extends StatelessWidget {
@@ -397,7 +478,11 @@ class DashboardBottomNav extends StatelessWidget {
         color: Colors.white.withOpacity(0.85),
         borderRadius: BorderRadius.circular(100),
         boxShadow: [
-          BoxShadow(color: const Color(0xFF675D53).withOpacity(0.08), blurRadius: 40, offset: const Offset(0, 20)),
+          BoxShadow(
+            color: const Color(0xFF675D53).withOpacity(0.08),
+            blurRadius: 40,
+            offset: const Offset(0, 20),
+          ),
         ],
       ),
       child: ClipRRect(
@@ -437,10 +522,23 @@ class _NavIcon extends StatelessWidget {
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
               ),
-              boxShadow: [BoxShadow(color: Color(0xFF675D53), blurRadius: 12, offset: Offset(0, 4), spreadRadius: -2)],
+              boxShadow: [
+                BoxShadow(
+                  color: Color(0xFF675D53),
+                  blurRadius: 12,
+                  offset: Offset(0, 4),
+                  spreadRadius: -2,
+                ),
+              ],
             )
           : null,
-      child: Icon(icon, color: isSelected ? Colors.white : const Color(0xFF675D53).withOpacity(0.4), size: 24),
+      child: Icon(
+        icon,
+        color: isSelected
+            ? Colors.white
+            : const Color(0xFF675D53).withOpacity(0.4),
+        size: 24,
+      ),
     );
   }
 }
