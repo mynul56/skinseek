@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(seconds: 2),
     )..repeat();
 
-    // Navigate to LandingScreen after delay
+    // Navigate to OnboardingScreen after delay
     Timer(const Duration(seconds: 3), () {
       if (mounted) {
         Navigator.of(context).pushReplacement(
