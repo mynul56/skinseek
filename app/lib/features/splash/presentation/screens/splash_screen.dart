@@ -1,11 +1,12 @@
 import 'dart:async';
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
+import 'package:skinseek_app/features/home/presentation/screens/home_dashboard_screen.dart';
 import 'package:skinseek_app/features/onboarding/presentation/screens/onboarding_screen.dart';
 import 'package:skinseek_app/features/setup/data/repositories/setup_repository.dart';
-import 'package:skinseek_app/features/analyzer/presentation/screens/analyses_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -14,8 +15,7 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen>
-    with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
   late AnimationController _logoController;
   late AnimationController _shimmerController;
   late Animation<double> _logoAnimation;
@@ -25,30 +25,25 @@ class _SplashScreenState extends State<SplashScreen>
     super.initState();
 
     // Logo shimmer/glow animation
-    _logoController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 4),
-    )..repeat(reverse: true);
+    _logoController = AnimationController(vsync: this, duration: const Duration(seconds: 4))..repeat(reverse: true);
 
-    _logoAnimation = Tween<double>(begin: 1.0, end: 1.05).animate(
-      CurvedAnimation(parent: _logoController, curve: Curves.easeInOut),
-    );
+    _logoAnimation = Tween<double>(
+      begin: 1.0,
+      end: 1.05,
+    ).animate(CurvedAnimation(parent: _logoController, curve: Curves.easeInOut));
 
     // Progress line shimmer animation
-    _shimmerController = AnimationController(
-      vsync: this,
-      duration: const Duration(seconds: 2),
-    )..repeat();
+    _shimmerController = AnimationController(vsync: this, duration: const Duration(seconds: 2))..repeat();
 
     // Navigate after delay
     Timer(const Duration(seconds: 3), () async {
       if (mounted) {
         final repository = SetupRepository();
         final profile = await repository.getProfile();
-        
+
         Widget nextScreen;
         if (profile != null && profile.isCompleted) {
-          nextScreen = const AnalysesScreen();
+          nextScreen = const HomeDashboardScreen();
         } else {
           nextScreen = const OnboardingScreen();
         }
@@ -86,10 +81,7 @@ class _SplashScreenState extends State<SplashScreen>
               gradient: LinearGradient(
                 begin: Alignment.topLeft,
                 end: Alignment.bottomRight,
-                colors: [
-                  AppTheme.splashGradientStart,
-                  AppTheme.splashGradientEnd,
-                ],
+                colors: [AppTheme.splashGradientStart, AppTheme.splashGradientEnd],
               ),
             ),
           ),
@@ -98,35 +90,21 @@ class _SplashScreenState extends State<SplashScreen>
           Positioned(
             top: -100,
             left: -100,
-            child: _BlurredCircle(
-              size: 400,
-              color: AppTheme.splashAmbient1.withOpacity(0.2),
-              blur: 100,
-            ),
+            child: _BlurredCircle(size: 400, color: AppTheme.splashAmbient1.withOpacity(0.2), blur: 100),
           ),
           Positioned(
             top: MediaQuery.of(context).size.height * 0.5 - 250,
             right: -200,
-            child: _BlurredCircle(
-              size: 500,
-              color: AppTheme.splashAmbient2.withOpacity(0.15),
-              blur: 120,
-            ),
+            child: _BlurredCircle(size: 500, color: AppTheme.splashAmbient2.withOpacity(0.15), blur: 120),
           ),
           Positioned(
             bottom: -150,
             left: MediaQuery.of(context).size.width * 0.25 - 150,
-            child: _BlurredCircle(
-              size: 300,
-              color: Colors.white.withOpacity(0.4),
-              blur: 80,
-            ),
+            child: _BlurredCircle(size: 300, color: Colors.white.withOpacity(0.4), blur: 80),
           ),
 
           // Overlay Glassmorphism Texture
-          Positioned.fill(
-            child: Container(color: Colors.white.withOpacity(0.05)),
-          ),
+          Positioned.fill(child: Container(color: Colors.white.withOpacity(0.05))),
 
           // Main Content
           Center(
@@ -144,20 +122,10 @@ class _SplashScreenState extends State<SplashScreen>
                       shape: BoxShape.circle,
                       border: Border.all(color: Colors.white, width: 1),
                       boxShadow: [
-                        BoxShadow(
-                          color: AppTheme.splashPrimary.withOpacity(0.1),
-                          blurRadius: 20,
-                          spreadRadius: 5,
-                        ),
+                        BoxShadow(color: AppTheme.splashPrimary.withOpacity(0.1), blurRadius: 20, spreadRadius: 5),
                       ],
                     ),
-                    child: const Center(
-                      child: Icon(
-                        Icons.flare,
-                        size: 64,
-                        color: AppTheme.splashPrimary,
-                      ),
-                    ),
+                    child: const Center(child: Icon(Icons.flare, size: 64, color: AppTheme.splashPrimary)),
                   ),
                 ),
                 const SizedBox(height: 32),
@@ -255,11 +223,7 @@ class _BlurredCircle extends StatelessWidget {
   final Color color;
   final double blur;
 
-  const _BlurredCircle({
-    required this.size,
-    required this.color,
-    required this.blur,
-  });
+  const _BlurredCircle({required this.size, required this.color, required this.blur});
 
   @override
   Widget build(BuildContext context) {

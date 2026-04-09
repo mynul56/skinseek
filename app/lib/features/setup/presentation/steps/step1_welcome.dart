@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../widgets/setup_widgets.dart';
 
 class Step1Welcome extends StatelessWidget {
@@ -22,28 +23,18 @@ class Step1Welcome extends StatelessWidget {
                 width: 240,
                 height: 240,
                 decoration: BoxDecoration(
-                  gradient: const RadialGradient(
-                    colors: [Color(0xFFF5E6DA), Colors.transparent],
-                  ),
+                  gradient: const RadialGradient(colors: [Color(0xFFF5E6DA), Colors.transparent]),
                   borderRadius: BorderRadius.circular(120),
                 ),
               ),
-              const Icon(
-                Icons.auto_fix_high_rounded,
-                size: 120,
-                color: Color(0xFF675D53),
-              ),
+              const Icon(Icons.auto_fix_high_rounded, size: 120, color: Color(0xFF675D53)),
             ],
           ),
         ),
-        const Spacer(),
+        const SizedBox(height: 40),
         Text(
           'This only takes about 20 seconds.',
-          style: TextStyle(
-            color: Colors.grey.shade500,
-            fontSize: 14,
-            fontWeight: FontWeight.w500,
-          ),
+          style: TextStyle(color: Colors.grey.shade500, fontSize: 14, fontWeight: FontWeight.w500),
         ),
         const SizedBox(height: 100),
       ],

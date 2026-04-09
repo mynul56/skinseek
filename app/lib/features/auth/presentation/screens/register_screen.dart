@@ -1,18 +1,19 @@
 import 'dart:ui';
-
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
 import 'package:skinseek_app/features/setup/presentation/screens/skin_setup_flow.dart';
+import 'package:skinseek_app/features/setup/presentation/riverpod/setup_provider.dart';
 
-class RegisterScreen extends StatefulWidget {
+class RegisterScreen extends ConsumerStatefulWidget {
   const RegisterScreen({super.key});
 
   @override
-  State<RegisterScreen> createState() => _RegisterScreenState();
+  ConsumerState<RegisterScreen> createState() => _RegisterScreenState();
 }
 
-class _RegisterScreenState extends State<RegisterScreen> {
+class _RegisterScreenState extends ConsumerState<RegisterScreen> {
   final _nameController = TextEditingController();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
@@ -156,10 +157,15 @@ class _RegisterScreenState extends State<RegisterScreen> {
 
                         // Create Account Button
                         GestureDetector(
-                          onTap: () {
-                            Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => const SkinSetupFlow()),
-                            );
+                          onTap: () async {
+                            // Reset setup flow for fresh registration
+                            ref.read(setupNotifierProvider.notifier).resetSetup();
+                            
+                            if (mounted) {
+                              Navigator.of(context).pushReplacement(
+                                MaterialPageRoute(builder: (context) => const SkinSetupFlow()),
+                              );
+                            }
                           },
                           child: Container(
                             width: double.infinity,

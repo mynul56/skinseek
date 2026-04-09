@@ -120,6 +120,11 @@ class SkinSetupNotifier extends StateNotifier<SetupState> {
     await _repository.saveCurrentStep(state.currentStep);
   }
 
+  Future<void> resetSetup() async {
+    await _repository.clearAll();
+    state = SetupState(currentStep: 0, profile: const SkinProfile());
+  }
+
   bool isStepValid(int step) {
     switch (step) {
       case 0:
