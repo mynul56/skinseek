@@ -42,7 +42,7 @@ class HomeHeader extends StatelessWidget {
                     style: GoogleFonts.manrope(
                       fontSize: 22,
                       fontWeight: FontWeight.w800,
-                      color: AppTheme.splashPrimary,
+                      color: Colors.black,
                       letterSpacing: -1,
                     ),
                   ),
@@ -90,7 +90,7 @@ class GreetingSection extends StatelessWidget {
           style: GoogleFonts.manrope(
             fontSize: 32,
             fontWeight: FontWeight.w800,
-            color: AppTheme.splashPrimary,
+            color: Colors.black,
             letterSpacing: -1,
           ),
         ),
@@ -99,7 +99,7 @@ class GreetingSection extends StatelessWidget {
           'Your skin hydration is up by 12% today. Let\'s keep the glow going.',
           style: GoogleFonts.inter(
             fontSize: 15,
-            color: AppTheme.splashOnSurfaceVariant.withOpacity(0.8),
+            color: Colors.black.withOpacity(0.7),
             height: 1.5,
           ),
         ),
@@ -247,9 +247,9 @@ class _BentoCard extends StatelessWidget {
                 Text(
                   title,
                   style: GoogleFonts.manrope(
-                    fontSize: isLarge ? 22 : 16,
+                    fontSize: isLarge ? 22 : 18,
                     fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : AppTheme.splashPrimary,
+                    color: isDark ? Colors.white : Colors.black,
                   ),
                 ),
                 SizedBox(height: isLarge ? 4 : 2),
@@ -261,7 +261,7 @@ class _BentoCard extends StatelessWidget {
                     fontSize: isLarge ? 12 : 11,
                     color: isDark
                         ? Colors.white.withOpacity(0.7)
-                        : AppTheme.splashOnSurfaceVariant.withOpacity(0.7),
+                        : Colors.black.withOpacity(0.6),
                   ),
                 ),
                 SizedBox(height: isLarge ? 16 : 12),
@@ -338,14 +338,14 @@ class RecentScansSection extends StatelessWidget {
                   style: GoogleFonts.manrope(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
-                    color: AppTheme.splashPrimary,
+                    color: Colors.black,
                   ),
                 ),
                 Text(
                   'Your digital shelf history',
                   style: GoogleFonts.inter(
                     fontSize: 13,
-                    color: AppTheme.splashOnSurfaceVariant.withOpacity(0.6),
+                    color: Colors.black.withOpacity(0.5),
                   ),
                 ),
               ],
@@ -357,7 +357,7 @@ class RecentScansSection extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 14,
                   fontWeight: FontWeight.bold,
-                  color: AppTheme.splashPrimary,
+                  color: Colors.black,
                 ),
               ),
             ),
@@ -418,7 +418,7 @@ class RecentScansSection extends StatelessWidget {
                       style: GoogleFonts.manrope(
                         fontSize: 15,
                         fontWeight: FontWeight.bold,
-                        color: AppTheme.splashPrimary,
+                        color: Colors.black,
                       ),
                     ),
                     const SizedBox(height: 4),
@@ -434,9 +434,7 @@ class RecentScansSection extends StatelessWidget {
                           item.match,
                           style: GoogleFonts.inter(
                             fontSize: 11,
-                            color: AppTheme.splashOnSurfaceVariant.withOpacity(
-                              0.6,
-                            ),
+                            color: Colors.black.withOpacity(0.5),
                           ),
                         ),
                       ],

@@ -179,16 +179,21 @@ class _SkinInsightsGrid extends StatelessWidget {
             content: Wrap(
               spacing: 4,
               runSpacing: 4,
-              children: profile.concerns
-                  .take(2)
-                  .map(
-                    (c) => Container(
-                      padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                      decoration: BoxDecoration(color: const Color(0xFFEFEEEB), borderRadius: BorderRadius.circular(100)),
-                      child: Text(c.titleLabel, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500)),
-                    ),
-                  )
-                  .toList(),
+              children: profile.concerns.isEmpty
+                  ? [Text('None', style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500))]
+                  : profile.concerns
+                        .take(2)
+                        .map(
+                          (c) => Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                            decoration: BoxDecoration(
+                              color: const Color(0xFFEFEEEB),
+                              borderRadius: BorderRadius.circular(100),
+                            ),
+                            child: Text(c.titleLabel, style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500)),
+                          ),
+                        )
+                        .toList(),
             ),
             icon: Icons.flare,
             isUpdateable: true,
