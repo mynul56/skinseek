@@ -6,7 +6,7 @@ part of 'api_client.dart';
 // RiverpodGenerator
 // **************************************************************************
 
-String _$dioHash() => r'9f4a209f2f883486cd4c8da4e1a5f6dc0239d2f4';
+String _$dioHash() => r'5e2886eeb27f24d3d4398b733ae2e3402a035e19';
 
 /// See also [dio].
 @ProviderFor(dio)
@@ -23,7 +23,7 @@ final dioProvider = AutoDisposeProvider<Dio>.internal(
 @Deprecated('Will be removed in 3.0. Use Ref instead')
 // ignore: unused_element
 typedef DioRef = AutoDisposeProviderRef<Dio>;
-String _$apiClientHash() => r'c62540da0ce554feb74860b55299619c189bd5d0';
+String _$apiClientHash() => r'2323b04a21a2d8af9771185cdbb860969eec2df2';
 
 /// See also [apiClient].
 @ProviderFor(apiClient)

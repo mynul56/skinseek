@@ -4,6 +4,8 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
 import 'package:skinseek_app/features/onboarding/presentation/screens/onboarding_screen.dart';
+import 'package:skinseek_app/features/setup/data/repositories/setup_repository.dart';
+import 'package:skinseek_app/features/analyzer/presentation/screens/analyses_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -38,20 +40,30 @@ class _SplashScreenState extends State<SplashScreen>
       duration: const Duration(seconds: 2),
     )..repeat();
 
-    // Navigate to OnboardingScreen after delay
-    Timer(const Duration(seconds: 3), () {
+    // Navigate after delay
+    Timer(const Duration(seconds: 3), () async {
       if (mounted) {
-        Navigator.of(context).pushReplacement(
-          PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) =>
-                const OnboardingScreen(),
-            transitionsBuilder:
-                (context, animation, secondaryAnimation, child) {
-                  return FadeTransition(opacity: animation, child: child);
-                },
-            transitionDuration: const Duration(milliseconds: 800),
-          ),
-        );
+        final repository = SetupRepository();
+        final profile = await repository.getProfile();
+        
+        Widget nextScreen;
+        if (profile != null && profile.isCompleted) {
+          nextScreen = const AnalysesScreen();
+        } else {
+          nextScreen = const OnboardingScreen();
+        }
+
+        if (mounted) {
+          Navigator.of(context).pushReplacement(
+            PageRouteBuilder(
+              pageBuilder: (context, animation, secondaryAnimation) => nextScreen,
+              transitionsBuilder: (context, animation, secondaryAnimation, child) {
+                return FadeTransition(opacity: animation, child: child);
+              },
+              transitionDuration: const Duration(milliseconds: 800),
+            ),
+          );
+        }
       }
     });
   }

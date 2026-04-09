@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
-import 'package:skinseek_app/features/setup/presentation/screens/skin_setup_screen.dart';
+import 'package:skinseek_app/features/setup/presentation/screens/skin_setup_flow.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({super.key});
@@ -158,7 +158,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         GestureDetector(
                           onTap: () {
                             Navigator.of(context).pushReplacement(
-                              MaterialPageRoute(builder: (context) => const SkinSetupScreen()),
+                              MaterialPageRoute(builder: (context) => const SkinSetupFlow()),
                             );
                           },
                           child: Container(
