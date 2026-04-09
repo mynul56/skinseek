@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
+import 'package:skinseek_app/features/home/presentation/screens/notification_screen.dart';
 
 class SetupHeader extends StatelessWidget {
   final int currentStep;
@@ -44,7 +45,12 @@ class SetupHeader extends StatelessWidget {
                       color: AppTheme.splashPrimary,
                     ),
                   ),
-                  const Icon(Icons.notifications_outlined, color: AppTheme.splashPrimary),
+                  IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NotificationScreen()));
+                    },
+                    icon: const Icon(Icons.notifications_outlined, color: AppTheme.splashPrimary),
+                  ),
                 ],
               ),
             ),
