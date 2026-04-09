@@ -1,4 +1,5 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
@@ -27,10 +28,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     // Show temporary success feedback
     ScaffoldMessenger.of(context).showSnackBar(
       SnackBar(
-        content: Text(
-          'Password Updated Successfully',
-          style: GoogleFonts.inter(fontWeight: FontWeight.w600),
-        ),
+        content: Text('Password Updated Successfully', style: GoogleFonts.inter(fontWeight: FontWeight.w600)),
         backgroundColor: AppTheme.splashPrimary,
         behavior: SnackBarBehavior.floating,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
@@ -40,10 +38,9 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
     // Redirect to login after 1.5 seconds
     Future.delayed(const Duration(milliseconds: 1500), () {
       if (mounted) {
-        Navigator.of(context).pushAndRemoveUntil(
-          MaterialPageRoute(builder: (context) => const LoginScreen()),
-          (route) => false,
-        );
+        Navigator.of(
+          context,
+        ).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
       }
     });
   }
@@ -58,11 +55,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
           Positioned(
             bottom: -80,
             left: -80,
-            child: _BlurredCircle(
-              size: 320,
-              color: AppTheme.splashAmbient2.withOpacity(0.2),
-              blur: 80,
-            ),
+            child: _BlurredCircle(size: 320, color: AppTheme.splashAmbient2.withOpacity(0.2), blur: 80),
           ),
 
           // Main Content
@@ -106,7 +99,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         const SizedBox(height: 64),
 
                         // New Password
-                        _RecoveryInputLabel(label: 'New Password'),
+                        const _RecoveryInputLabel(label: 'New Password'),
                         const SizedBox(height: 8),
                         _RecoveryInputField(
                           controller: _passwordController,
@@ -125,7 +118,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                         const SizedBox(height: 24),
 
                         // Confirm Password
-                        _RecoveryInputLabel(label: 'Confirm Password'),
+                        const _RecoveryInputLabel(label: 'Confirm Password'),
                         const SizedBox(height: 8),
                         _RecoveryInputField(
                           controller: _confirmPasswordController,
@@ -159,11 +152,7 @@ class _ResetPasswordScreenState extends State<ResetPasswordScreen> {
                             child: Center(
                               child: Text(
                                 'Update Password',
-                                style: GoogleFonts.manrope(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white,
-                                ),
+                                style: GoogleFonts.manrope(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
                               ),
                             ),
                           ),
@@ -257,33 +246,19 @@ class _RecoveryInputField extends StatelessWidget {
   final bool obscureText;
   final Widget? suffixIcon;
 
-  const _RecoveryInputField({
-    required this.controller,
-    required this.hint,
-    this.obscureText = false,
-    this.suffixIcon,
-  });
+  const _RecoveryInputField({required this.controller, required this.hint, this.obscureText = false, this.suffixIcon});
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      decoration: BoxDecoration(
-        color: AppTheme.authSurfaceContainerHigh,
-        borderRadius: BorderRadius.circular(16),
-      ),
+      decoration: BoxDecoration(color: AppTheme.authSurfaceContainerHigh, borderRadius: BorderRadius.circular(16)),
       child: TextField(
         controller: controller,
         obscureText: obscureText,
-        style: GoogleFonts.inter(
-          color: AppTheme.splashOnSurfaceVariant,
-          fontWeight: FontWeight.w600,
-        ),
+        style: GoogleFonts.inter(color: AppTheme.splashOnSurfaceVariant, fontWeight: FontWeight.w600),
         decoration: InputDecoration(
           hintText: hint,
-          hintStyle: GoogleFonts.inter(
-            color: Colors.grey.shade400,
-            fontWeight: FontWeight.w500,
-          ),
+          hintStyle: GoogleFonts.inter(color: Colors.grey.shade400, fontWeight: FontWeight.w500),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
           suffixIcon: suffixIcon,
@@ -298,21 +273,14 @@ class _BlurredCircle extends StatelessWidget {
   final Color color;
   final double blur;
 
-  const _BlurredCircle({
-    required this.size,
-    required this.color,
-    required this.blur,
-  });
+  const _BlurredCircle({required this.size, required this.color, required this.blur});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(color: Colors.transparent),
