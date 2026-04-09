@@ -150,7 +150,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                       decoration: BoxDecoration(
                         color: isActive 
                           ? AppTheme.splashPrimary.withOpacity(0.4)
-                          : AppTheme.outlineVariant.withOpacity(0.3),
+                          : AppTheme.splashOutlineVariant.withOpacity(0.3),
                         borderRadius: BorderRadius.circular(3),
                       ),
                     );
@@ -486,7 +486,7 @@ class _OnboardingPageView extends StatelessWidget {
                                         height: 4,
                                         width: 80 - (index * 15.0),
                                         decoration: BoxDecoration(
-                                          color: AppTheme.outlineVariant.withOpacity(0.3),
+                                          color: AppTheme.splashOutlineVariant.withOpacity(0.3),
                                           borderRadius: BorderRadius.circular(2),
                                         ),
                                       ),

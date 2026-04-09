@@ -20,6 +20,7 @@ class AppTheme {
   static const Color splashAmbient2 = Color(0xFFFDD4C0);
   static const Color splashError = Color(0xFFBA1A1A);
   static const Color splashErrorContainer = Color(0xFFFFDAD6);
+  static const Color splashOutlineVariant = Color(0xFFD0C4BC);
 
   static ThemeData get lightTheme {
     return ThemeData(
