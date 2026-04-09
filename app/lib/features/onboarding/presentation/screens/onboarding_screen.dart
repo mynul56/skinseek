@@ -17,7 +17,8 @@ class OnboardingContent {
   final Color? centerIconColor;
   final bool showPulse;
   final bool showWarningBanner;
-  final String? warningTitle;
+  final bool showCheckmarkBanner;
+  final String? bannerTitle;
 
   const OnboardingContent({
     required this.title,
@@ -32,7 +33,8 @@ class OnboardingContent {
     this.centerIconColor,
     this.showPulse = false,
     this.showWarningBanner = false,
-    this.warningTitle,
+    this.showCheckmarkBanner = false,
+    this.bannerTitle,
   });
 }
 
@@ -72,7 +74,20 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
       centerIcon: Icons.error,
       centerIconColor: AppTheme.splashError,
       showWarningBanner: true,
-      warningTitle: 'AHA Acids',
+      bannerTitle: 'AHA Acids',
+    ),
+    const OnboardingContent(
+      title: 'Save money with smart dupes',
+      body: "Find high-end performance without the high-end price tag.",
+      backCardImage: 'assets/images/onboarding_3_back.png',
+      backCardLabel: 'Luxury Classic',
+      backCardTitle: '\$185.00',
+      frontCardImage: 'assets/images/onboarding_3_front.png',
+      frontCardLabel: 'Smart Dupe',
+      frontCardTitle: '\$24.00',
+      centerIcon: Icons.flare,
+      showCheckmarkBanner: true,
+      bannerTitle: 'Smart Dupe',
     ),
   ];
 
@@ -383,7 +398,7 @@ class _OnboardingPageView extends StatelessWidget {
                                 fit: BoxFit.cover,
                               ),
                             ),
-                          if (content.showWarningBanner)
+                          if (content.showWarningBanner || content.showCheckmarkBanner)
                             Positioned(
                               top: 0,
                               left: 0,
@@ -394,7 +409,9 @@ class _OnboardingPageView extends StatelessWidget {
                                   filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
                                   child: Container(
                                     padding: const EdgeInsets.all(12),
-                                    color: AppTheme.splashErrorContainer.withOpacity(0.9),
+                                    color: content.showWarningBanner 
+                                      ? AppTheme.splashErrorContainer.withOpacity(0.9)
+                                      : AppTheme.splashAmbient1.withOpacity(0.9),
                                     child: Row(
                                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                       children: [
@@ -402,21 +419,25 @@ class _OnboardingPageView extends StatelessWidget {
                                           crossAxisAlignment: CrossAxisAlignment.start,
                                           children: [
                                             Text(
-                                              'Active Ingredient',
+                                              content.frontCardLabel,
                                               style: GoogleFonts.inter(
                                                 fontSize: 8,
                                                 fontWeight: FontWeight.bold,
                                                 letterSpacing: 1.5,
-                                                color: AppTheme.splashError.withOpacity(0.8),
+                                                color: content.showWarningBanner 
+                                                  ? AppTheme.splashError.withOpacity(0.8)
+                                                  : AppTheme.splashPrimary.withOpacity(0.8),
                                               ),
                                             ),
                                             const SizedBox(height: 2),
                                             Text(
-                                              content.warningTitle!,
+                                              content.bannerTitle!,
                                               style: GoogleFonts.manrope(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.w800,
-                                                color: AppTheme.splashError,
+                                                color: content.showWarningBanner 
+                                                  ? AppTheme.splashError
+                                                  : AppTheme.splashPrimary,
                                               ),
                                             ),
                                           ],
@@ -424,13 +445,21 @@ class _OnboardingPageView extends StatelessWidget {
                                         Container(
                                           padding: const EdgeInsets.all(8),
                                           decoration: BoxDecoration(
-                                            color: AppTheme.splashError.withOpacity(0.1),
+                                            color: content.showWarningBanner 
+                                              ? AppTheme.splashError.withOpacity(0.1)
+                                              : AppTheme.splashPrimary.withOpacity(0.1),
                                             shape: BoxShape.circle,
-                                            border: Border.all(color: AppTheme.splashError.withOpacity(0.2)),
+                                            border: Border.all(color: content.showWarningBanner 
+                                              ? AppTheme.splashError.withOpacity(0.2)
+                                              : AppTheme.splashPrimary.withOpacity(0.2)),
                                           ),
-                                          child: const Icon(
-                                            Icons.warning_amber_rounded,
-                                            color: AppTheme.splashError,
+                                          child: Icon(
+                                            content.showWarningBanner 
+                                              ? Icons.warning_amber_rounded
+                                              : Icons.check_circle_outline_rounded,
+                                            color: content.showWarningBanner 
+                                              ? AppTheme.splashError
+                                              : AppTheme.splashPrimary,
                                             size: 18,
                                           ),
                                         ),
