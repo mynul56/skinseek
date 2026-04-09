@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
 import 'package:skinseek_app/features/onboarding/presentation/screens/onboarding_screen.dart';
-import 'package:skinseek_app/features/auth/presentation/screens/landing_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
@@ -13,7 +12,8 @@ class SplashScreen extends StatefulWidget {
   State<SplashScreen> createState() => _SplashScreenState();
 }
 
-class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMixin {
+class _SplashScreenState extends State<SplashScreen>
+    with TickerProviderStateMixin {
   late AnimationController _logoController;
   late AnimationController _shimmerController;
   late Animation<double> _logoAnimation;
@@ -43,10 +43,12 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
       if (mounted) {
         Navigator.of(context).pushReplacement(
           PageRouteBuilder(
-            pageBuilder: (context, animation, secondaryAnimation) => const OnboardingScreen(),
-            transitionsBuilder: (context, animation, secondaryAnimation, child) {
-              return FadeTransition(opacity: animation, child: child);
-            },
+            pageBuilder: (context, animation, secondaryAnimation) =>
+                const OnboardingScreen(),
+            transitionsBuilder:
+                (context, animation, secondaryAnimation, child) {
+                  return FadeTransition(opacity: animation, child: child);
+                },
             transitionDuration: const Duration(milliseconds: 800),
           ),
         );
@@ -111,9 +113,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
 
           // Overlay Glassmorphism Texture
           Positioned.fill(
-            child: Container(
-              color: Colors.white.withOpacity(0.05),
-            ),
+            child: Container(color: Colors.white.withOpacity(0.05)),
           ),
 
           // Main Content
@@ -149,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   ),
                 ),
                 const SizedBox(height: 32),
-                
+
                 // Branding
                 Column(
                   children: [
@@ -196,7 +196,7 @@ class _SplashScreenState extends State<SplashScreen> with TickerProviderStateMix
                   ),
                 ),
                 const SizedBox(height: 24),
-                
+
                 // Shimmer Progress Line
                 Container(
                   width: 96,
@@ -254,10 +254,7 @@ class _BlurredCircle extends StatelessWidget {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(color: Colors.transparent),

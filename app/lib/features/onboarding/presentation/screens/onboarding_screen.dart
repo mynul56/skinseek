@@ -155,7 +155,7 @@ class _OnboardingScreenState extends State<OnboardingScreen> with SingleTickerPr
                 // Progress Indicator
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
-                  children: List.generate(_pages.length + 1, (index) {
+                  children: List.generate(_pages.length, (index) {
                     final bool isActive = index == _currentPage;
                     return AnimatedContainer(
                       duration: const Duration(milliseconds: 300),
