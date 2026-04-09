@@ -52,39 +52,16 @@ class _ProfileHeader extends StatelessWidget {
       padding: const EdgeInsets.fromLTRB(24, 60, 24, 0),
       height: 124,
       decoration: BoxDecoration(color: const Color(0xFFFAF9F6).withOpacity(0.7)),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Row(
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: const Color(0xFFF5E6DA), width: 2),
-                  image: const DecorationImage(
-                    image: NetworkImage(
-                      'https://lh3.googleusercontent.com/aida-public/AB6AXuCEkQLyngqpnFcFg77-2LuOTdyX5zpON_uBouhKuRR9qm3qQUgoRN2VXa4LAohlNqpNXd8aOB1MWlszlNlFTov-Tjz8TixoqzpCjSc80Zp4_agi9CEVgFWwrqkoMDwAlqi3huNsAwUmPxD9QXmXVrGW9PAMS6akhFRii2blE0fymZJbqZyMz-5Xu0ZB9DASF00HFDtd8fqruvOhQLuQPSL2wQzdcXpe2awpYms0t2gpj9PszaAIsNOxztqe_hUdA1lk2JSrcWsEsteM',
-                    ),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-              const SizedBox(width: 12),
-              Text(
-                'SkinSeek',
-                style: GoogleFonts.manrope(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  color: AppTheme.splashPrimary,
-                  letterSpacing: -1,
-                ),
-              ),
-            ],
+      child: Center(
+        child: Text(
+          'SkinSeek',
+          style: GoogleFonts.manrope(
+            fontSize: 22,
+            fontWeight: FontWeight.w800,
+            color: AppTheme.splashPrimary,
+            letterSpacing: -1,
           ),
-          const Icon(Icons.notifications_outlined, color: Color(0xFF675D53)),
-        ],
+        ),
       ),
     );
   }
