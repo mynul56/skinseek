@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
 import 'package:skinseek_app/features/home/presentation/screens/notification_screen.dart';
+import 'package:skinseek_app/features/barcode/presentation/screens/scanner_screen.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -105,7 +106,7 @@ class ActionBentoGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const Column(
+    return Column(
       children: [
         // Analyze Ingredients (Large Card)
         _BentoCard(
@@ -116,8 +117,13 @@ class ActionBentoGrid extends StatelessWidget {
           backgroundColor: Colors.white,
           isLarge: true,
           buttonGradient: [Color(0xFFF5E6DA), Color(0xFF675D53)],
+          onTap: () {
+            Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => const AdvancedScannerScreen()),
+            );
+          },
         ),
-        SizedBox(height: 16),
+        const SizedBox(height: 16),
         Row(
           children: [
             // Check Routine (Square)
@@ -167,6 +173,7 @@ class _BentoCard extends StatelessWidget {
   final Color? buttonColor;
   final Color? buttonLabelColor;
   final String? backgroundImage;
+  final VoidCallback? onTap;
 
   const _BentoCard({
     required this.title,
@@ -180,81 +187,85 @@ class _BentoCard extends StatelessWidget {
     this.buttonColor,
     this.buttonLabelColor,
     this.backgroundImage,
+    this.onTap,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: isLarge ? 220 : 216,
-      decoration: BoxDecoration(
-        color: backgroundColor,
-        borderRadius: BorderRadius.circular(24),
-        image: backgroundImage != null
-            ? DecorationImage(image: NetworkImage(backgroundImage!), fit: BoxFit.cover, opacity: 0.15)
-            : null,
-        boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 40, offset: const Offset(0, 20))],
-      ),
-      child: Stack(
-        children: [
-          if (isDark && !isLarge)
-            Positioned(
-              right: -20,
-              bottom: -20,
-              child: Icon(Icons.paid, size: 140, color: Colors.white.withValues(alpha: 0.05)),
-            ),
-          Padding(
-            padding: EdgeInsets.all(isLarge ? 24 : 20),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Container(
-                  padding: EdgeInsets.all(isLarge ? 10 : 8),
-                  decoration: BoxDecoration(
-                    color: isDark ? Colors.white.withValues(alpha: 0.1) : (isLarge ? const Color(0xFFF5E6DA) : Colors.white),
-                    shape: BoxShape.circle,
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        height: isLarge ? 220 : 216,
+        decoration: BoxDecoration(
+          color: backgroundColor,
+          borderRadius: BorderRadius.circular(24),
+          image: backgroundImage != null
+              ? DecorationImage(image: NetworkImage(backgroundImage!), fit: BoxFit.cover, opacity: 0.15)
+              : null,
+          boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.04), blurRadius: 40, offset: const Offset(0, 20))],
+        ),
+        child: Stack(
+          children: [
+            if (isDark && !isLarge)
+              Positioned(
+                right: -20,
+                bottom: -20,
+                child: Icon(Icons.paid, size: 140, color: Colors.white.withValues(alpha: 0.05)),
+              ),
+            Padding(
+              padding: EdgeInsets.all(isLarge ? 24 : 20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: EdgeInsets.all(isLarge ? 10 : 8),
+                    decoration: BoxDecoration(
+                      color: isDark ? Colors.white.withValues(alpha: 0.1) : (isLarge ? const Color(0xFFF5E6DA) : Colors.white),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(icon, color: isDark ? Colors.white : AppTheme.splashPrimary, size: isLarge ? 24 : 20),
                   ),
-                  child: Icon(icon, color: isDark ? Colors.white : AppTheme.splashPrimary, size: isLarge ? 24 : 20),
-                ),
-                if (isLarge) const Spacer() else const SizedBox(height: 12),
-                Text(
-                  title,
-                  style: GoogleFonts.manrope(
-                    fontSize: isLarge ? 22 : 18,
-                    fontWeight: FontWeight.bold,
-                    color: isDark ? Colors.white : Colors.black,
-                  ),
-                ),
-                SizedBox(height: isLarge ? 4 : 2),
-                Text(
-                  subtitle,
-                  maxLines: isLarge ? 2 : 1,
-                  overflow: TextOverflow.ellipsis,
-                  style: GoogleFonts.inter(
-                    fontSize: isLarge ? 12 : 11,
-                    color: isDark ? Colors.white.withValues(alpha: 0.7) : Colors.black.withValues(alpha: 0.6),
-                  ),
-                ),
-                SizedBox(height: isLarge ? 16 : 12),
-                Container(
-                  padding: EdgeInsets.symmetric(horizontal: isLarge ? 20 : 16, vertical: isLarge ? 10 : 8),
-                  decoration: BoxDecoration(
-                    color: buttonColor,
-                    gradient: buttonGradient != null ? LinearGradient(colors: buttonGradient!) : null,
-                    borderRadius: BorderRadius.circular(999),
-                  ),
-                  child: Text(
-                    buttonLabel,
+                  if (isLarge) const Spacer() else const SizedBox(height: 12),
+                  Text(
+                    title,
                     style: GoogleFonts.manrope(
-                      fontSize: isLarge ? 13 : 12,
+                      fontSize: isLarge ? 22 : 18,
                       fontWeight: FontWeight.bold,
-                      color: buttonLabelColor ?? Colors.white,
+                      color: isDark ? Colors.white : Colors.black,
                     ),
                   ),
-                ),
-              ],
+                  SizedBox(height: isLarge ? 4 : 2),
+                  Text(
+                    subtitle,
+                    maxLines: isLarge ? 2 : 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: GoogleFonts.inter(
+                      fontSize: isLarge ? 12 : 11,
+                      color: isDark ? Colors.white.withValues(alpha: 0.7) : Colors.black.withValues(alpha: 0.6),
+                    ),
+                  ),
+                  SizedBox(height: isLarge ? 16 : 12),
+                  Container(
+                    padding: EdgeInsets.symmetric(horizontal: isLarge ? 20 : 16, vertical: isLarge ? 10 : 8),
+                    decoration: BoxDecoration(
+                      color: buttonColor,
+                      gradient: buttonGradient != null ? LinearGradient(colors: buttonGradient!) : null,
+                      borderRadius: BorderRadius.circular(999),
+                    ),
+                    child: Text(
+                      buttonLabel,
+                      style: GoogleFonts.manrope(
+                        fontSize: isLarge ? 13 : 12,
+                        fontWeight: FontWeight.bold,
+                        color: buttonLabelColor ?? Colors.white,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -333,7 +344,7 @@ class RecentScansSection extends StatelessWidget {
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(20),
-                  boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.03), blurRadius: 20, offset: const Offset(0, 10))],
+                  boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.03), blurRadius: 20, offset: const Offset(0, 10))],
                 ),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -444,7 +455,7 @@ class _NavIcon extends StatelessWidget {
               boxShadow: [BoxShadow(color: Color(0xFF675D53), blurRadius: 12, offset: Offset(0, 4), spreadRadius: -2)],
             )
           : null,
-      child: Icon(icon, color: isSelected ? Colors.white : const Color(0xFF675D53).withOpacity(0.4), size: 24),
+      child: Icon(icon, color: isSelected ? Colors.white : const Color(0xFF675D53).withValues(alpha: 0.84), size: 24),
     );
   }
 }

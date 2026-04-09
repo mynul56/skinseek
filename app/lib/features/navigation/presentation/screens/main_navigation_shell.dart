@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skinseek_app/features/home/presentation/screens/home_dashboard_screen.dart';
+import 'package:skinseek_app/features/barcode/presentation/screens/scanner_screen.dart';
 import 'package:skinseek_app/features/navigation/presentation/riverpod/navigation_provider.dart';
 import 'package:skinseek_app/features/navigation/presentation/widgets/bottom_nav_bar.dart';
 import 'package:skinseek_app/features/profile/presentation/screens/profile_screen.dart';
@@ -15,7 +16,7 @@ class MainNavigationShell extends ConsumerWidget {
     final List<Widget> screens = [
       const HomeDashboardScreen(),
       const _PlaceholderScreen(title: 'Explore'),
-      const _PlaceholderScreen(title: 'Scan'),
+      const AdvancedScannerScreen(),
       const ProfileScreen(),
     ];
 
