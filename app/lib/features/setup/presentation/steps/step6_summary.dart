@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import '../riverpod/setup_provider.dart';
-import '../../data/models/skin_profile.dart';
 import '../widgets/setup_widgets.dart';
 
 class Step6Summary extends ConsumerWidget {

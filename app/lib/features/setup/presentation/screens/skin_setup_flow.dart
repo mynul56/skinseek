@@ -34,13 +34,7 @@ class _SkinSetupFlowState extends ConsumerState<SkinSetupFlow> {
     super.dispose();
   }
 
-  void _handleStepChange(int step) {
-    _pageController.animateToPage(
-      step,
-      duration: const Duration(milliseconds: 400),
-      curve: Curves.easeInOutCubic,
-    );
-  }
+
 
   @override
   Widget build(BuildContext context) {
