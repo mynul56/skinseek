@@ -1,9 +1,10 @@
 import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
-import 'package:skinseek_app/features/auth/presentation/screens/register_screen.dart';
 import 'package:skinseek_app/features/auth/presentation/screens/forgot_password_screen.dart';
+import 'package:skinseek_app/features/auth/presentation/screens/register_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -33,20 +34,12 @@ class _LoginScreenState extends State<LoginScreen> {
           Positioned(
             top: -100,
             left: -50,
-            child: _BlurredCircle(
-              size: 256,
-              color: AppTheme.splashAmbient1.withOpacity(0.3),
-              blur: 80,
-            ),
+            child: _BlurredCircle(size: 256, color: AppTheme.splashAmbient1.withOpacity(0.3), blur: 80),
           ),
           Positioned(
             bottom: -80,
             right: -80,
-            child: _BlurredCircle(
-              size: 320,
-              color: AppTheme.splashAmbient2.withOpacity(0.2),
-              blur: 80,
-            ),
+            child: _BlurredCircle(size: 320, color: AppTheme.splashAmbient2.withOpacity(0.2), blur: 80),
           ),
 
           // Main Content
@@ -71,10 +64,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             color: AppTheme.textPrimary,
                           ),
                         ),
-                        const Icon(
-                          Icons.auto_awesome,
-                          color: AppTheme.splashPrimary,
-                        ),
+                        const Icon(Icons.auto_awesome, color: AppTheme.splashPrimary),
                       ],
                     ),
                   ),
@@ -99,10 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         Text(
                           'Return to your digital sanctuary.',
                           textAlign: TextAlign.center,
-                          style: GoogleFonts.inter(
-                            fontSize: 18,
-                            color: AppTheme.splashOnSurfaceVariant.withOpacity(0.7),
-                          ),
+                          style: GoogleFonts.inter(fontSize: 18, color: AppTheme.splashOnSurfaceVariant.withOpacity(0.7)),
                         ),
                       ],
                     ),
@@ -115,7 +102,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       // Email Address
-                      _LoginFormLabel(label: 'Email Address'),
+                      const _LoginFormLabel(label: 'Email Address'),
                       const SizedBox(height: 8),
                       _LoginFormInput(
                         controller: _emailController,
@@ -126,13 +113,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SizedBox(height: 24),
 
                       // Password
-                      _LoginFormLabel(label: 'Password'),
+                      const _LoginFormLabel(label: 'Password'),
                       const SizedBox(height: 8),
-                      _LoginFormInput(
-                        controller: _passwordController,
-                        hint: '••••••••',
-                        obscureText: true,
-                      ),
+                      _LoginFormInput(controller: _passwordController, hint: '••••••••', obscureText: true),
 
                       const SizedBox(height: 16),
 
@@ -141,9 +124,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         alignment: Alignment.centerRight,
                         child: TextButton(
                           onPressed: () {
-                            Navigator.of(context).push(
-                              MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()),
-                            );
+                            Navigator.of(
+                              context,
+                            ).push(MaterialPageRoute(builder: (context) => const ForgotPasswordScreen()));
                           },
                           child: Text(
                             'Forgot Password?',
@@ -172,7 +155,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
                             ),
-                            borderRadius: BorderRadius.circular(double.infinity),
+                            borderRadius: BorderRadius.circular(999),
                             boxShadow: [
                               BoxShadow(
                                 color: AppTheme.splashPrimary.withOpacity(0.15),
@@ -203,11 +186,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     children: [
                       Row(
                         children: [
-                          Expanded(
-                            child: Divider(
-                              color: AppTheme.splashOutlineVariant.withOpacity(0.3),
-                            ),
-                          ),
+                          Expanded(child: Divider(color: AppTheme.splashOutlineVariant.withOpacity(0.3))),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 16.0),
                             child: Text(
@@ -220,25 +199,15 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                             ),
                           ),
-                          Expanded(
-                            child: Divider(
-                              color: AppTheme.splashOutlineVariant.withOpacity(0.3),
-                            ),
-                          ),
+                          Expanded(child: Divider(color: AppTheme.splashOutlineVariant.withOpacity(0.3))),
                         ],
                       ),
                       const SizedBox(height: 32),
-                      Row(
+                      const Row(
                         children: [
-                          _SocialLoginButton(
-                            icon: Icons.g_mobiledata_rounded,
-                            label: 'Google',
-                          ),
-                          const SizedBox(width: 16),
-                          _SocialLoginButton(
-                            icon: Icons.apple_rounded,
-                            label: 'Apple',
-                          ),
+                          _SocialLoginButton(icon: Icons.g_mobiledata_rounded, label: 'Google'),
+                          SizedBox(width: 16),
+                          _SocialLoginButton(icon: Icons.apple_rounded, label: 'Apple'),
                         ],
                       ),
                     ],
@@ -250,10 +219,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   Center(
                     child: RichText(
                       text: TextSpan(
-                        style: GoogleFonts.inter(
-                          fontSize: 16,
-                          color: AppTheme.splashOnSurfaceVariant.withOpacity(0.6),
-                        ),
+                        style: GoogleFonts.inter(fontSize: 16, color: AppTheme.splashOnSurfaceVariant.withOpacity(0.6)),
                         children: [
                           const TextSpan(text: 'New to SkinSeek? '),
                           WidgetSpan(
@@ -261,16 +227,11 @@ class _LoginScreenState extends State<LoginScreen> {
                             baseline: TextBaseline.alphabetic,
                             child: GestureDetector(
                               onTap: () {
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(builder: (context) => const RegisterScreen()),
-                                );
+                                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const RegisterScreen()));
                               },
                               child: Text(
                                 'Create an Account',
-                                style: GoogleFonts.inter(
-                                  fontWeight: FontWeight.bold,
-                                  color: AppTheme.splashPrimary,
-                                ),
+                                style: GoogleFonts.inter(fontWeight: FontWeight.bold, color: AppTheme.splashPrimary),
                               ),
                             ),
                           ),
@@ -314,11 +275,7 @@ class _LoginFormLabel extends StatelessWidget {
       padding: const EdgeInsets.symmetric(horizontal: 16.0),
       child: Text(
         label,
-        style: GoogleFonts.inter(
-          fontSize: 14,
-          fontWeight: FontWeight.w600,
-          color: AppTheme.authTertiary,
-        ),
+        style: GoogleFonts.inter(fontSize: 14, fontWeight: FontWeight.w600, color: AppTheme.authTertiary),
       ),
     );
   }
@@ -343,29 +300,15 @@ class _LoginFormInput extends StatelessWidget {
       controller: controller,
       obscureText: obscureText,
       keyboardType: keyboardType,
-      style: GoogleFonts.inter(
-        color: AppTheme.splashOnSurfaceVariant,
-        fontSize: 16,
-      ),
+      style: GoogleFonts.inter(color: AppTheme.splashOnSurfaceVariant, fontSize: 16),
       decoration: InputDecoration(
         hintText: hint,
-        hintStyle: GoogleFonts.inter(
-          color: AppTheme.splashOutlineVariant,
-        ),
+        hintStyle: GoogleFonts.inter(color: AppTheme.splashOutlineVariant),
         filled: true,
         fillColor: AppTheme.authSurfaceContainerHigh,
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
-        ),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide.none,
-        ),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+        enabledBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
+        focusedBorder: OutlineInputBorder(borderRadius: BorderRadius.circular(16), borderSide: BorderSide.none),
         contentPadding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
       ),
     );
@@ -376,10 +319,7 @@ class _SocialLoginButton extends StatelessWidget {
   final IconData icon;
   final String label;
 
-  const _SocialLoginButton({
-    required this.icon,
-    required this.label,
-  });
+  const _SocialLoginButton({required this.icon, required this.label});
 
   @override
   Widget build(BuildContext context) {
@@ -391,19 +331,9 @@ class _SocialLoginButton extends StatelessWidget {
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            boxShadow: [BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 10, offset: const Offset(0, 4))],
           ),
-          child: Icon(
-            icon,
-            color: AppTheme.splashOnSurfaceVariant,
-            size: 28,
-          ),
+          child: Icon(icon, color: AppTheme.splashOnSurfaceVariant, size: 28),
         ),
       ),
     );
@@ -415,21 +345,14 @@ class _BlurredCircle extends StatelessWidget {
   final Color color;
   final double blur;
 
-  const _BlurredCircle({
-    required this.size,
-    required this.color,
-    required this.blur,
-  });
+  const _BlurredCircle({required this.size, required this.color, required this.blur});
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: size,
       height: size,
-      decoration: BoxDecoration(
-        color: color,
-        shape: BoxShape.circle,
-      ),
+      decoration: BoxDecoration(color: color, shape: BoxShape.circle),
       child: BackdropFilter(
         filter: ImageFilter.blur(sigmaX: blur, sigmaY: blur),
         child: Container(color: Colors.transparent),

@@ -110,7 +110,7 @@ class _ForgotPasswordScreenState extends State<ForgotPasswordScreen> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
-                              borderRadius: BorderRadius.circular(double.infinity),
+                              borderRadius: BorderRadius.circular(999),
                               boxShadow: [
                                 BoxShadow(
                                   color: AppTheme.splashPrimary.withOpacity(0.15),

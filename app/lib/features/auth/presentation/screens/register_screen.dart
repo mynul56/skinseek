@@ -167,7 +167,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
                                 begin: Alignment.topLeft,
                                 end: Alignment.bottomRight,
                               ),
-                              borderRadius: BorderRadius.circular(double.infinity),
+                              borderRadius: BorderRadius.circular(999),
                               boxShadow: [
                                 BoxShadow(
                                   color: AppTheme.splashPrimary.withOpacity(0.15),
@@ -387,7 +387,7 @@ class _SocialGridButton extends StatelessWidget {
         child: Container(
           padding: const EdgeInsets.symmetric(vertical: 12),
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(double.infinity),
+            borderRadius: BorderRadius.circular(999),
             border: Border.all(color: AppTheme.splashOutlineVariant.withOpacity(0.2)),
           ),
           child: Row(
