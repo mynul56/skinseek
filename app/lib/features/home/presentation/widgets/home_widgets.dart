@@ -138,6 +138,7 @@ class ActionBentoGrid extends StatelessWidget {
                 icon: Icons.sync,
                 backgroundColor: Color.fromARGB(255, 255, 255, 255),
                 buttonColor: Color.fromARGB(255, 255, 255, 255),
+                buttonLabelColor: Colors.black,
                 backgroundImage:
                     'https://lh3.googleusercontent.com/aida-public/AB6AXuDWu90V-CrOm0oZk_HgpmmzeNMfS4c-D-GH0yLNkyXO7ePujx33767OSwoVbtEHHU-uvhfHLkNcDlHjJgkc_chblCxeSKEhabyI1Cic0Y0-r9Q2iMiv1LRxUyW_QtAvA0CE8ken63MrvWVo1_tk3ztOxDGuu9vZol-eP2uvrMNmINYJwsgSaJujPZM2gqmjNKCDFim23ImCn9apEsxBBeHRKhPnULDqAccgaCbfvWXGulpUyVCOMpO_ID20wVQ_ubgf2bLItt-VuvOm',
               ),
