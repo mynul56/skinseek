@@ -1,0 +1,26 @@
+# Monorepo gitignore
+
+# Flutter
+app/.dart_tool/
+app/.flutter-plugins
+app/.flutter-plugins-dependencies
+app/.packages
+app/.pub-cache/
+app/.pub/
+app/build/
+app/.env*
+
+# Node / Backend
+backend/node_modules/
+backend/dist/
+backend/.env*
+backend/.vercel/
+
+# MacOS
+.DS_Store
+
+# IDEs
+.idea/
+.vscode/
+*.swp
+*.lock
