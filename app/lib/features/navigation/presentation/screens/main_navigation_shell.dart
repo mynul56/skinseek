@@ -5,6 +5,7 @@ import 'package:skinseek_app/features/barcode/presentation/screens/scanner_scree
 import 'package:skinseek_app/features/navigation/presentation/riverpod/navigation_provider.dart';
 import 'package:skinseek_app/features/navigation/presentation/widgets/bottom_nav_bar.dart';
 import 'package:skinseek_app/features/profile/presentation/screens/profile_screen.dart';
+import 'package:skinseek_app/features/analyzer/presentation/screens/ingredient_analyzer_screen.dart';
 
 class MainNavigationShell extends ConsumerWidget {
   const MainNavigationShell({super.key});
@@ -15,7 +16,7 @@ class MainNavigationShell extends ConsumerWidget {
 
     final List<Widget> screens = [
       const HomeDashboardScreen(),
-      const _PlaceholderScreen(title: 'Explore'),
+      const IngredientAnalyzerScreen(),
       const AdvancedScannerScreen(),
       const ProfileScreen(),
     ];
