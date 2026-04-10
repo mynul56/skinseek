@@ -4,14 +4,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/features/home/presentation/widgets/home_widgets.dart';
 
-class AIAnalysisScreen extends StatefulWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skinseek_app/features/analyzer/presentation/riverpod/analyzer_provider.dart';
+import 'package:skinseek_app/features/analyzer/presentation/screens/analysis_result_screen.dart';
+
+class AIAnalysisScreen extends ConsumerStatefulWidget {
   const AIAnalysisScreen({super.key});
 
   @override
-  State<AIAnalysisScreen> createState() => _AIAnalysisScreenState();
+  ConsumerState<AIAnalysisScreen> createState() => _AIAnalysisScreenState();
 }
 
-class _AIAnalysisScreenState extends State<AIAnalysisScreen> with TickerProviderStateMixin {
+class _AIAnalysisScreenState extends ConsumerState<AIAnalysisScreen> with TickerProviderStateMixin {
   late AnimationController _pulseController;
   late AnimationController _rotateController;
   late AnimationController _messageController;
@@ -62,6 +66,22 @@ class _AIAnalysisScreenState extends State<AIAnalysisScreen> with TickerProvider
 
   @override
   Widget build(BuildContext context) {
+    ref.listen(analyzerStateProvider, (previous, next) {
+      if (next is AsyncData && next.value != null && previous?.value != next.value) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (_) => AnalysisResultScreen(result: next.value!),
+          ),
+        );
+      } else if (next is AsyncError) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(next.error.toString())),
+        );
+        Navigator.pop(context);
+      }
+    });
+
     return Scaffold(
       backgroundColor: const Color(0xFFFAF9F6),
       body: Stack(

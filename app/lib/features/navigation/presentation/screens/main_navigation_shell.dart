@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skinseek_app/features/home/presentation/screens/home_dashboard_screen.dart';
-import 'package:skinseek_app/features/barcode/presentation/screens/scanner_screen.dart';
 import 'package:skinseek_app/features/navigation/presentation/riverpod/navigation_provider.dart';
 import 'package:skinseek_app/features/navigation/presentation/widgets/bottom_nav_bar.dart';
 import 'package:skinseek_app/features/profile/presentation/screens/profile_screen.dart';
@@ -30,7 +29,12 @@ class MainNavigationShell extends ConsumerWidget {
           screens[currentIndex],
 
           // Floating Bottom Navigation
-          const Positioned(bottom: 0, left: 0, right: 0, child: DashboardBottomNav()),
+          const Positioned(
+            bottom: 0,
+            left: 0,
+            right: 0,
+            child: DashboardBottomNav(),
+          ),
         ],
       ),
     );
@@ -44,7 +48,10 @@ class _PlaceholderScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Text(title, style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+      child: Text(
+        title,
+        style: const TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+      ),
     );
   }
 }

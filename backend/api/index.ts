@@ -97,7 +97,10 @@ app.post('/api/analyze', async (req: Request, res: Response) => {
     try {
       // Find JSON block if Claude adds preamble
       const jsonMatch = content.match(/\{[\s\S]*\}/);
-      const result = jsonMatch ? JSON.parse(jsonMatch[0]) : JSON.parse(content);
+      const extractedStr = jsonMatch ? jsonMatch[0] : content;
+      // Also potentially fix markdown code blocks
+      const cleanJson = extractedStr.replace(/```json\n?|\n?```/g, '').trim();
+      const result = JSON.parse(cleanJson);
       res.json({ success: true, data: result });
     } catch (parseError) {
       console.error('Failed to parse Claude response:', content);
@@ -149,7 +152,15 @@ app.get('/api/barcode/:code', async (req: Request, res: Response) => {
   }
 });
 
+// Start logic for local dev vs vercel
+if (process.env.NODE_ENV !== 'production' && !process.env.VERCEL) {
+  const port = process.env.PORT || 3000;
+  app.listen(port, () => {
+    console.log(`Development server running on http://localhost:${port}`);
+  });
+}
+
 // Export for Vercel
 export default (req: VercelRequest, res: VercelResponse) => {
-  return app(req, res);
+  return app(req as any, res as any);
 };

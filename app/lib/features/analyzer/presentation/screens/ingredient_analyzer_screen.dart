@@ -3,14 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/features/home/presentation/widgets/home_widgets.dart';
 
-class IngredientAnalyzerScreen extends StatefulWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skinseek_app/features/analyzer/presentation/riverpod/analyzer_provider.dart';
+import 'package:skinseek_app/features/analyzer/presentation/screens/ai_analysis_screen.dart';
+
+class IngredientAnalyzerScreen extends ConsumerStatefulWidget {
   const IngredientAnalyzerScreen({super.key});
 
   @override
-  State<IngredientAnalyzerScreen> createState() => _IngredientAnalyzerScreenState();
+  ConsumerState<IngredientAnalyzerScreen> createState() => _IngredientAnalyzerScreenState();
 }
 
-class _IngredientAnalyzerScreenState extends State<IngredientAnalyzerScreen> {
+class _IngredientAnalyzerScreenState extends ConsumerState<IngredientAnalyzerScreen> {
   final TextEditingController _controller = TextEditingController();
 
   @override
@@ -225,7 +229,14 @@ class _IngredientAnalyzerScreenState extends State<IngredientAnalyzerScreen> {
 
                         // Analyze Button
                         _ShimmerButton(
-                          onTap: () {},
+                          onTap: () {
+                            if (_controller.text.trim().isEmpty) return;
+                            ref.read(analyzerStateProvider.notifier).analyze(_controller.text);
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (_) => const AIAnalysisScreen()),
+                            );
+                          },
                           text: 'Analyze Now',
                         ),
                         const SizedBox(height: 24),
