@@ -2,9 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
+import 'package:skinseek_app/features/auth/presentation/screens/login_screen.dart';
+import 'package:skinseek_app/features/history/presentation/screens/history_screen.dart';
+import 'package:skinseek_app/features/profile/presentation/screens/personal_information_screen.dart';
+import 'package:skinseek_app/features/profile/presentation/screens/privacy_security_screen.dart';
 import 'package:skinseek_app/features/setup/data/models/skin_profile.dart';
 import 'package:skinseek_app/features/setup/presentation/riverpod/setup_provider.dart';
 import 'package:skinseek_app/features/subscriptions/presentation/screens/premium_subscription_screen.dart';
+import 'package:supabase_flutter/supabase_flutter.dart';
 
 class ProfileScreen extends ConsumerWidget {
   const ProfileScreen({super.key});
@@ -33,7 +38,18 @@ class ProfileScreen extends ConsumerWidget {
                   const SizedBox(height: 24),
                   const _SubscriptionCard(),
                   const SizedBox(height: 32),
-                  const _AccountSettingsList(),
+                  _AccountSettingsList(
+                    onPersonalInformation: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PersonalInformationScreen()));
+                    },
+                    onAnalysisHistory: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HistoryScreen()));
+                    },
+                    onPrivacySecurity: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const PrivacySecurityScreen()));
+                    },
+                    onLogout: () => _confirmLogout(context),
+                  ),
                 ],
               ),
             ),
@@ -41,6 +57,33 @@ class ProfileScreen extends ConsumerWidget {
         ),
       ),
     );
+  }
+
+  Future<void> _confirmLogout(BuildContext context) async {
+    final shouldLogout = await showDialog<bool>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Log out?'),
+          content: const Text('You will need to log in again to continue.'),
+          actions: [
+            TextButton(onPressed: () => Navigator.of(context).pop(false), child: const Text('Cancel')),
+            TextButton(onPressed: () => Navigator.of(context).pop(true), child: const Text('Log out')),
+          ],
+        );
+      },
+    );
+
+    if (shouldLogout != true || !context.mounted) return;
+
+    try {
+      await Supabase.instance.client.auth.signOut();
+    } catch (_) {
+      // Allow local logout flow even if remote sign-out fails.
+    }
+
+    if (!context.mounted) return;
+    Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context) => const LoginScreen()), (route) => false);
   }
 }
 
@@ -84,7 +127,9 @@ class _UserInfoSection extends StatelessWidget {
               height: 120,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                boxShadow: [BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 40, offset: const Offset(0, 20))],
+                boxShadow: [
+                  BoxShadow(color: Colors.black.withValues(alpha: 0.1), blurRadius: 40, offset: const Offset(0, 20)),
+                ],
                 image: const DecorationImage(
                   image: NetworkImage(
                     'https://lh3.googleusercontent.com/aida-public/AB6AXuAKU-grIB1i1oZ2qCa0eqxgLXG_ZKy_X2yDsnPhNGtNq11xpbBZMOYZnd2_0C0C8W-tvnCAelHWZ8AAJUFrkXs6VSa8E20nQpV9-f30NumhO2KPrdfjqaRuW_fz0Pyr4OqCMx2SkTlo0cLRrikC2crkBhIhU8D-u8co5WxoME4PUMmOMRqKsJiwzLaH5shOgz7UaBVmEtWtzw1V1ovROdcYW8LrbA1hN5x_sa6fo0b6FdZa5GecDzT8CJiZ14DhTrbOU2rYqkjOfv7Z',
@@ -168,7 +213,10 @@ class _SkinInsightsGrid extends StatelessWidget {
                               color: const Color(0xFFEFEEEB),
                               borderRadius: BorderRadius.circular(100),
                             ),
-                            child: Text(c.name.toUpperCase(), style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500)),
+                            child: Text(
+                              c.name.toUpperCase(),
+                              style: GoogleFonts.inter(fontSize: 10, fontWeight: FontWeight.w500),
+                            ),
                           ),
                         )
                         .toList(),
@@ -296,12 +344,9 @@ class _SubscriptionCard extends StatelessWidget {
               const SizedBox(height: 24),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      fullscreenDialog: true,
-                      builder: (context) => const PremiumSubscriptionScreen(),
-                    ),
-                  );
+                  Navigator.of(
+                    context,
+                  ).push(MaterialPageRoute(fullscreenDialog: true, builder: (context) => const PremiumSubscriptionScreen()));
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: AppTheme.splashPrimary,
@@ -320,7 +365,17 @@ class _SubscriptionCard extends StatelessWidget {
 }
 
 class _AccountSettingsList extends StatelessWidget {
-  const _AccountSettingsList();
+  final VoidCallback onPersonalInformation;
+  final VoidCallback onAnalysisHistory;
+  final VoidCallback onPrivacySecurity;
+  final VoidCallback onLogout;
+
+  const _AccountSettingsList({
+    required this.onPersonalInformation,
+    required this.onAnalysisHistory,
+    required this.onPrivacySecurity,
+    required this.onLogout,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -341,13 +396,13 @@ class _AccountSettingsList extends StatelessWidget {
           decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(24)),
           child: Column(
             children: [
-              _SettingTile(icon: Icons.person_outline, title: 'Personal Information', onTap: () {}),
+              _SettingTile(icon: Icons.person_outline, title: 'Personal Information', onTap: onPersonalInformation),
               const Divider(height: 1, indent: 64),
-              _SettingTile(icon: Icons.history, title: 'Analysis History', onTap: () {}),
+              _SettingTile(icon: Icons.history, title: 'Analysis History', onTap: onAnalysisHistory),
               const Divider(height: 1, indent: 64),
-              _SettingTile(icon: Icons.shield_outlined, title: 'Privacy & Security', onTap: () {}),
+              _SettingTile(icon: Icons.shield_outlined, title: 'Privacy & Security', onTap: onPrivacySecurity),
               const Divider(height: 1, indent: 64),
-              _SettingTile(icon: Icons.logout, title: 'Logout', onTap: () {}, isDestructive: true),
+              _SettingTile(icon: Icons.logout, title: 'Logout', onTap: onLogout, isDestructive: true),
             ],
           ),
         ),
