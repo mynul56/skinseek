@@ -45,5 +45,7 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>SkinSeek needs camera access to scan product ingredient lists and barcodes.</string>
 </dict>
 </plist>

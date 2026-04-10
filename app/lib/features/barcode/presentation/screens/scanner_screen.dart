@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
 import '../widgets/scanner_overlay_painter.dart';
 import 'dart:ui';
+import 'package:mobile_scanner/mobile_scanner.dart';
 
 class AdvancedScannerScreen extends StatefulWidget {
   const AdvancedScannerScreen({super.key});
@@ -14,12 +15,18 @@ class AdvancedScannerScreen extends StatefulWidget {
 class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _scanController;
+  late final MobileScannerController _cameraController;
   bool isOcrMode = true;
   bool isFlashOn = false;
+  bool _isProcessing = false;
 
   @override
   void initState() {
     super.initState();
+    _cameraController = MobileScannerController(
+      facing: CameraFacing.back,
+      torchEnabled: false,
+    );
     _scanController = AnimationController(
       vsync: this,
       duration: const Duration(milliseconds: 2500),
@@ -28,6 +35,7 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
 
   @override
   void dispose() {
+    _cameraController.dispose();
     _scanController.dispose();
     super.dispose();
   }
@@ -39,8 +47,30 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
       body: Stack(
         children: [
           // 1. Camera Viewfinder (Original SDK will be integrated here)
-          const Positioned.fill(
-            child: ColoredBox(color: Colors.black),
+          Positioned.fill(
+            child: MobileScanner(
+              controller: _cameraController,
+              onDetect: (capture) {
+                if (_isProcessing) return;
+                final barcodes = capture.barcodes;
+                if (barcodes.isNotEmpty) {
+                  final code = barcodes.first.rawValue;
+                  if (code != null) {
+                    setState(() => _isProcessing = true);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text('Barcode Extracted: $code'),
+                        backgroundColor: const Color(0xFF675D53),
+                        behavior: SnackBarBehavior.floating,
+                      ),
+                    );
+                    Future.delayed(const Duration(seconds: 3), () {
+                      if (mounted) setState(() => _isProcessing = false);
+                    });
+                  }
+                }
+              },
+            ),
           ),
 
           // 2. Custom Scanner Overlay & Animation
@@ -197,7 +227,10 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
                       const _CaptureButton(),
                       _CircleControl(
                         icon: isFlashOn ? Icons.flash_on : Icons.flashlight_on,
-                        onTap: () => setState(() => isFlashOn = !isFlashOn),
+                        onTap: () {
+                          _cameraController.toggleTorch();
+                          setState(() => isFlashOn = !isFlashOn);
+                        },
                       ),
                     ],
                   ),
