@@ -5,6 +5,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
 import 'package:skinseek_app/features/home/presentation/screens/notification_screen.dart';
 import 'package:skinseek_app/features/barcode/presentation/screens/scanner_screen.dart';
+import 'package:skinseek_app/features/routine/presentation/screens/routine_clash_checker_screen.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -138,6 +139,11 @@ class ActionBentoGrid extends StatelessWidget {
                 buttonLabelColor: Colors.black,
                 backgroundImage:
                     'https://lh3.googleusercontent.com/aida-public/AB6AXuDWu90V-CrOm0oZk_HgpmmzeNMfS4c-D-GH0yLNkyXO7ePujx33767OSwoVbtEHHU-uvhfHLkNcDlHjJgkc_chblCxeSKEhabyI1Cic0Y0-r9Q2iMiv1LRxUyW_QtAvA0CE8ken63MrvWVo1_tk3ztOxDGuu9vZol-eP2uvrMNmINYJwsgSaJujPZM2gqmjNKCDFim23ImCn9apEsxBBeHRKhPnULDqAccgaCbfvWXGulpUyVCOMpO_ID20wVQ_ubgf2bLItt-VuvOm',
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const RoutineClashCheckerScreen()),
+                  );
+                },
               ),
             ),
             SizedBox(width: 16),
