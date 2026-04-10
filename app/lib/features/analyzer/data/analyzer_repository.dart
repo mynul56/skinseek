@@ -49,6 +49,18 @@ class AnalyzerRepository {
       );
     }
   }
+
+  Future<Map<String, dynamic>?> lookupBarcode(String code) async {
+    try {
+      final response = await _apiClient.get('/api/barcode/$code');
+      if (response.data['success'] == true) {
+        return response.data['data'] as Map<String, dynamic>;
+      }
+      return null;
+    } catch (e) {
+      return null;
+    }
+  }
 }
 
 @riverpod

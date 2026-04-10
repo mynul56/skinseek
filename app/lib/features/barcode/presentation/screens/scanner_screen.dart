@@ -3,22 +3,33 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
 import '../widgets/scanner_overlay_painter.dart';
 import 'dart:ui';
+import 'dart:typed_data';
 import 'package:mobile_scanner/mobile_scanner.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:skinseek_app/features/analyzer/data/analyzer_repository.dart';
+import 'package:skinseek_app/features/analyzer/presentation/screens/analysis_result_screen.dart';
+import 'package:google_mlkit_text_recognition/google_mlkit_text_recognition.dart';
+import 'package:image_picker/image_picker.dart';
 
-class AdvancedScannerScreen extends StatefulWidget {
+class AdvancedScannerScreen extends ConsumerStatefulWidget {
   const AdvancedScannerScreen({super.key});
 
   @override
-  State<AdvancedScannerScreen> createState() => _AdvancedScannerScreenState();
+  ConsumerState<AdvancedScannerScreen> createState() => _AdvancedScannerScreenState();
 }
 
-class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
+class _AdvancedScannerScreenState extends ConsumerState<AdvancedScannerScreen>
     with SingleTickerProviderStateMixin {
   late AnimationController _scanController;
   late final MobileScannerController _cameraController;
+  final TextRecognizer _textRecognizer = TextRecognizer();
+  final ImagePicker _picker = ImagePicker();
+  
+  Uint8List? _lastFrame;
   bool isOcrMode = true;
   bool isFlashOn = false;
   bool _isProcessing = false;
+  String? _loadingMessage;
 
   @override
   void initState() {
@@ -26,6 +37,7 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
     _cameraController = MobileScannerController(
       facing: CameraFacing.back,
       torchEnabled: false,
+      returnImage: true,
     );
     _scanController = AnimationController(
       vsync: this,
@@ -37,7 +49,111 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
   void dispose() {
     _cameraController.dispose();
     _scanController.dispose();
+    _textRecognizer.close();
     super.dispose();
+  }
+
+  Future<void> _processBarcode(String code) async {
+    if (_isProcessing) return;
+    setState(() {
+      _isProcessing = true;
+      _loadingMessage = 'Identifying Product...';
+    });
+
+    try {
+      final repo = ref.read(analyzerRepositoryProvider);
+      final product = await repo.lookupBarcode(code);
+      
+      if (product != null && product['ingredients'] != null) {
+        setState(() => _loadingMessage = 'Analyzing Ingredients...');
+        final result = await repo.analyzeIngredients(
+          ingredients: product['ingredients'],
+        );
+        
+        if (mounted) {
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(builder: (_) => AnalysisResultScreen(result: result)),
+          );
+        }
+      } else {
+        _handleError('Product not found in our database.');
+      }
+    } catch (e) {
+      _handleError('Analysis failed. Please try again.');
+    }
+  }
+
+  Future<void> _processImage(InputImage image) async {
+    setState(() {
+      _isProcessing = true;
+      _loadingMessage = 'Extracting Text...';
+    });
+
+    try {
+      final RecognizedText recognizedText = await _textRecognizer.processImage(image);
+      final String fullText = recognizedText.text;
+      
+      if (fullText.trim().isEmpty) {
+        _handleError('No text found in image.');
+        return;
+      }
+
+      setState(() => _loadingMessage = 'AI Analysis in progress...');
+      final repo = ref.read(analyzerRepositoryProvider);
+      final result = await repo.analyzeIngredients(ingredients: fullText);
+      
+      if (mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(builder: (_) => AnalysisResultScreen(result: result)),
+        );
+      }
+    } catch (e) {
+      _handleError('Failed to parse text. Use clearer lighting.');
+    }
+  }
+
+  Future<void> _pickFromGallery() async {
+    final XFile? image = await _picker.pickImage(source: ImageSource.gallery);
+    if (image != null) {
+      _processImage(InputImage.fromFilePath(image.path));
+    }
+  }
+
+  Future<void> _capturePhoto() async {
+    if (_lastFrame == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text("No frame captured yet. Point the camera at a label.")),
+      );
+      return;
+    }
+    
+    // Process the bytes from the last captured frame
+    _processImage(InputImage.fromBytes(
+      bytes: _lastFrame!,
+      metadata: InputImageMetadata(
+        size: const Size(1080, 1920), // Placeholder, usually extracted from capture
+        rotation: InputImageRotation.rotation0deg,
+        format: InputImageFormat.bgra8888,
+        bytesPerRow: 1080 * 4,
+      ),
+    ));
+  }
+
+  void _handleError(String message) {
+    if (!mounted) return;
+    setState(() {
+      _isProcessing = false;
+      _loadingMessage = null;
+    });
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text(message),
+        backgroundColor: Colors.redAccent,
+        behavior: SnackBarBehavior.floating,
+      ),
+    );
   }
 
   @override
@@ -51,22 +167,21 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
             child: MobileScanner(
               controller: _cameraController,
               onDetect: (capture) {
+                // Update last frame for capture
+                if (capture.image != null) {
+                  _lastFrame = capture.image;
+                }
+
                 if (_isProcessing) return;
-                final barcodes = capture.barcodes;
-                if (barcodes.isNotEmpty) {
-                  final code = barcodes.first.rawValue;
-                  if (code != null) {
-                    setState(() => _isProcessing = true);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                      SnackBar(
-                        content: Text('Barcode Extracted: $code'),
-                        backgroundColor: const Color(0xFF675D53),
-                        behavior: SnackBarBehavior.floating,
-                      ),
-                    );
-                    Future.delayed(const Duration(seconds: 3), () {
-                      if (mounted) setState(() => _isProcessing = false);
-                    });
+                
+                // Only auto-process in Barcode mode
+                if (!isOcrMode) {
+                  final barcodes = capture.barcodes;
+                  if (barcodes.isNotEmpty) {
+                    final code = barcodes.first.rawValue;
+                    if (code != null) {
+                      _processBarcode(code);
+                    }
                   }
                 }
               },
@@ -202,11 +317,15 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
                             isSelected: isOcrMode,
                             onTap: () => setState(() => isOcrMode = true),
                           ),
-                          _ModeButton(
+                           _ModeButton(
                             label: 'Barcode',
                             icon: Icons.qr_code_scanner,
                             isSelected: !isOcrMode,
-                            onTap: () => setState(() => isOcrMode = false),
+                            onTap: () {
+                              _cameraController.stop();
+                              setState(() => isOcrMode = false);
+                              _cameraController.start();
+                            },
                           ),
                         ],
                       ),
@@ -222,13 +341,15 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
                     children: [
                       _CircleControl(
                         icon: Icons.image,
-                        onTap: () {},
+                        onTap: _pickFromGallery,
                       ),
-                      const _CaptureButton(),
+                      _CaptureButton(
+                        onTap: isOcrMode ? _capturePhoto : null,
+                      ),
                       _CircleControl(
                         icon: isFlashOn ? Icons.flash_on : Icons.flashlight_on,
-                        onTap: () {
-                          _cameraController.toggleTorch();
+                        onTap: () async {
+                          await _cameraController.toggleTorch();
                           setState(() => isFlashOn = !isFlashOn);
                         },
                       ),
@@ -238,6 +359,37 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
               ],
             ),
           ),
+          
+          // 7. Loading Overlay
+          if (_isProcessing)
+            Positioned.fill(
+              child: Container(
+                color: Colors.black.withValues(alpha: 0.6),
+                child: BackdropFilter(
+                  filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                  child: Center(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const CircularProgressIndicator(
+                          color: Color(0xFFF5E6DA),
+                          strokeWidth: 3,
+                        ),
+                        const SizedBox(height: 24),
+                        Text(
+                          _loadingMessage ?? 'Processing...',
+                          style: GoogleFonts.manrope(
+                            color: Colors.white,
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+            ),
         ],
       ),
     );
@@ -319,33 +471,37 @@ class _CircleControl extends StatelessWidget {
 }
 
 class _CaptureButton extends StatelessWidget {
-  const _CaptureButton();
+  final VoidCallback? onTap;
+  const _CaptureButton({this.onTap});
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      width: 80,
-      height: 80,
-      padding: const EdgeInsets.all(4),
-      decoration: const BoxDecoration(
-        color: Colors.white,
-        shape: BoxShape.circle,
-      ),
+    return Opacity(
+      opacity: onTap == null ? 0.5 : 1.0,
       child: Container(
-        decoration: BoxDecoration(
+        width: 80,
+        height: 80,
+        padding: const EdgeInsets.all(4),
+        decoration: const BoxDecoration(
+          color: Colors.white,
           shape: BoxShape.circle,
-          border: Border.all(color: Colors.black.withValues(alpha: 0.1), width: 4),
-          gradient: const LinearGradient(
-            colors: [Color(0xFFF5E6DA), Color(0xFF675D53)],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
         ),
-        child: Material(
-          color: Colors.transparent,
-          child: InkWell(
-            onTap: () {},
-            borderRadius: BorderRadius.circular(100),
+        child: Container(
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            border: Border.all(color: Colors.black.withValues(alpha: 0.1), width: 4),
+            gradient: const LinearGradient(
+              colors: [Color(0xFFF5E6DA), Color(0xFF675D53)],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+          child: Material(
+            color: Colors.transparent,
+            child: InkWell(
+              onTap: onTap,
+              borderRadius: BorderRadius.circular(100),
+            ),
           ),
         ),
       ),
