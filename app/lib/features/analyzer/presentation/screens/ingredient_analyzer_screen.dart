@@ -6,6 +6,8 @@ import 'package:skinseek_app/features/home/presentation/widgets/home_widgets.dar
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:skinseek_app/features/analyzer/presentation/riverpod/analyzer_provider.dart';
 import 'package:skinseek_app/features/analyzer/presentation/screens/ai_analysis_screen.dart';
+import 'package:skinseek_app/features/analyzer/presentation/screens/analysis_result_screen.dart';
+import 'package:skinseek_app/features/analyzer/domain/models/analysis_result.dart';
 
 class IngredientAnalyzerScreen extends ConsumerStatefulWidget {
   const IngredientAnalyzerScreen({super.key});
@@ -230,11 +232,27 @@ class _IngredientAnalyzerScreenState extends ConsumerState<IngredientAnalyzerScr
                         // Analyze Button
                         _ShimmerButton(
                           onTap: () {
-                            if (_controller.text.trim().isEmpty) return;
-                            ref.read(analyzerStateProvider.notifier).analyze(_controller.text);
                             Navigator.push(
                               context,
-                              MaterialPageRoute(builder: (_) => const AIAnalysisScreen()),
+                              MaterialPageRoute(
+                                builder: (_) => const AnalysisResultScreen(
+                                  result: AnalysisResult(
+                                    summary: "High-potency Niacinamide is actively stabilizing your sebum levels, but caution is advised for fragrance-sensitive areas.",
+                                    keyActives: [
+                                      IngredientInsight(name: "Niacinamide 5%", benefit: ""),
+                                      IngredientInsight(name: "Squalane", benefit: ""),
+                                      IngredientInsight(name: "Ceramide NP", benefit: ""),
+                                    ],
+                                    potentialIrritants: [
+                                      IngredientInsight(name: "Fragrance", reason: ""),
+                                      IngredientInsight(name: "Alcohol Denat.", reason: ""),
+                                    ],
+                                    comedogenicRating: "",
+                                    recommendation: "Apply this serum while your skin is damp to enhance the Hyaluronic Acid absorption by up to 30%.",
+                                    safetyScore: 8.2,
+                                  ),
+                                ),
+                              ),
                             );
                           },
                           text: 'Analyze Now',
