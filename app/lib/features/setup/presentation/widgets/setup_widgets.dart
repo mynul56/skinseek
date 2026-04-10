@@ -3,14 +3,12 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:skinseek_app/core/theme/app_theme.dart';
-import 'package:skinseek_app/features/home/presentation/screens/notification_screen.dart';
 
 class SetupHeader extends StatelessWidget {
   final int currentStep;
   final int totalSteps;
-  final String avatarUrl;
 
-  const SetupHeader({super.key, required this.currentStep, required this.totalSteps, required this.avatarUrl});
+  const SetupHeader({super.key, required this.currentStep, required this.totalSteps});
 
   @override
   Widget build(BuildContext context) {
@@ -28,14 +26,7 @@ class SetupHeader extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Container(
-                    width: 40,
-                    height: 40,
-                    decoration: BoxDecoration(
-                      shape: BoxShape.circle,
-                      image: DecorationImage(image: NetworkImage(avatarUrl), fit: BoxFit.cover),
-                    ),
-                  ),
+                  const SizedBox(width: 40),
                   Text(
                     'SkinSeek',
                     style: GoogleFonts.manrope(
@@ -45,12 +36,7 @@ class SetupHeader extends StatelessWidget {
                       color: AppTheme.splashPrimary,
                     ),
                   ),
-                  IconButton(
-                    onPressed: () {
-                      Navigator.of(context).push(MaterialPageRoute(builder: (context) => const NotificationScreen()));
-                    },
-                    icon: const Icon(Icons.notifications_outlined, color: AppTheme.splashPrimary),
-                  ),
+                  const SizedBox(width: 40),
                 ],
               ),
             ),

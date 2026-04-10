@@ -71,12 +71,7 @@ class _SkinSetupFlowState extends ConsumerState<SkinSetupFlow> {
                 SafeArea(
                   child: Column(
                     children: [
-                      SetupHeader(
-                        currentStep: state.currentStep,
-                        totalSteps: 6,
-                        avatarUrl:
-                            'https://lh3.googleusercontent.com/aida-public/AB6AXuBTOamVTzbOHO4sVjqD9btNU6u7d2IC77-5Xu7YXz0ucDuxjuSd1UXYxwrU9IdYYqCG33071EWKLteziANkqaa9wZqxCZnred6e0GLqaC6Tc1A8hfYYN7BKQEvRSlB2wSgteqkyB1Sbd1FfXIGbX65UnHhdoeXvWycfa9-m9M0WNxpJXZRKrRm6ESZMCS5rajyGhLsBSPpKYFMIS1Sb8KVf69YsfwIwTwhMRiGYYEGMP3DsoOZ6Z8_CH1DEaul-gK92pWAztz-8sh07',
-                      ),
+                      SetupHeader(currentStep: state.currentStep, totalSteps: 6),
                       Expanded(
                         child: PageView(
                           controller: _pageController,
