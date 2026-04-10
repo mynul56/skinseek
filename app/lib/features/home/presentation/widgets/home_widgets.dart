@@ -6,6 +6,8 @@ import 'package:skinseek_app/core/theme/app_theme.dart';
 import 'package:skinseek_app/features/home/presentation/screens/notification_screen.dart';
 import 'package:skinseek_app/features/barcode/presentation/screens/scanner_screen.dart';
 import 'package:skinseek_app/features/routine/presentation/screens/routine_clash_checker_screen.dart';
+import 'package:skinseek_app/features/dupes/presentation/screens/dupe_finder_screen.dart';
+import 'package:skinseek_app/features/history/presentation/screens/history_screen.dart';
 
 class HomeHeader extends StatelessWidget {
   const HomeHeader({super.key});
@@ -158,6 +160,11 @@ class ActionBentoGrid extends StatelessWidget {
                 isDark: true,
                 buttonLabelColor: Color(0xFF7F6500),
                 buttonColor: Color(0xFFFFE088),
+                onTap: () {
+                  Navigator.of(context).push(
+                    MaterialPageRoute(builder: (context) => const DupeFinderScreen()),
+                  );
+                },
               ),
             ),
           ],
@@ -326,7 +333,9 @@ class RecentScansSection extends StatelessWidget {
               ],
             ),
             TextButton(
-              onPressed: () {},
+              onPressed: () {
+                Navigator.of(context).push(MaterialPageRoute(builder: (context) => const HistoryScreen()));
+              },
               child: Text(
                 'View All',
                 style: GoogleFonts.manrope(fontSize: 14, fontWeight: FontWeight.bold, color: Colors.black),
