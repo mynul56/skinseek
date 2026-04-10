@@ -38,12 +38,9 @@ class _AdvancedScannerScreenState extends State<AdvancedScannerScreen>
       backgroundColor: Colors.black,
       body: Stack(
         children: [
-          // 1. Camera Viewfinder Placeholder
-          Positioned.fill(
-            child: Image.network(
-              'https://lh3.googleusercontent.com/aida-public/AB6AXuDzVQoP0u5kfYYz7syq56rUNO_ot5sgNZP8WsZKbL5JYAj8mNus_UtAAvbHmqQRYdP_7uinHf5WuBeh4IECiky1r_zZyWniH6Gvw8TFeDhG00wNO_Ki-qoFQ0qj8ESi4o8Sdeyt-zVV5OcZfNehiYukPAsRINDkDGpGCFjX-JoQc55LWx4Kh03O_3zvVcsYJx3qbvUhUt9ztjUWdWqcPsB2HfEOPKjaeHX7pZrLZw37l7bk6ztIZBSjNG61KDY3fuokvZWopQKQQmms',
-              fit: BoxFit.cover,
-            ),
+          // 1. Camera Viewfinder (Original SDK will be integrated here)
+          const Positioned.fill(
+            child: ColoredBox(color: Colors.black),
           ),
 
           // 2. Custom Scanner Overlay & Animation
